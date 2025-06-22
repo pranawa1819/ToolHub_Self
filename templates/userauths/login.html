@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #fff9e6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      .container_login {
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        margin-left: 10%;
+      }
+      
+      h2 {
+        color: #ffaa00;
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        margin-top: -5%;
+      }
+      
+      .form input {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 16px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      
+      .form input:focus {
+        border-color: #ff9900;
+        outline: none;
+      }
+      
+      .loginbutton {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(to right, #ffcc00, #ff9900);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background 0.3s ease;
+      }
+      
+      .loginbutton:hover {
+        background: linear-gradient(to right, #ffc107, #ff8800);
+      }
+      
+      .bottom-text {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #555;
+      }
+      
+      .bottom-text a {
+        color: #ff6600;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      
+      .bottom-text a:hover {
+        text-decoration: underline;
+      }
+      
+      .errorlist {
+        color: red;
+        font-size: 13px;
+        text-align: left;
+        margin-bottom: 10px;
+      }
+      img {
+        height: 300px;
+        margin-left: 6%;
+        margin-top: -10px;
+      }
+      .error-message {
+        color: red;
+        font-size: 13px;
+        text-align: left;
+        margin: 0 0 15px 0; /* Adjusted margin */
+        padding: 0;
+        list-style: none;
+        width: 100%;
+      }
+      
+      .error-message p {
+        margin: 5px 0; /* Space between multiple messages */
+      }
+      .divider {
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .divider::before,
+      .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #ccc;
+      }
+      
+      .divider:not(:empty)::before {
+        margin-right: 0.5em;
+      }
+      
+      .divider:not(:empty)::after {
+        margin-left: 0.5em;
+      }
+      
+      .social-icons {
+        justify-content: center;
+        gap: 10px;
+        margin-left: -5%;
+      }
+      
+      .social-icons img {
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+      }
+      @media (min-width: 768px) {
+        body {
+          flex-wrap: nowrap;
+        }
+        img {
+          height: 300px;
+          margin-left: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container_login">
+      <h2>Login</h2>
+      <p style="font-size:13px;">Please fill in the details below to login.</p>
+      <form id="loginform" method="POST" class="form">
+        {% csrf_token %}
+
+        <!-- Add this messages section -->
+        {% if messages %}
+          <div class="error-message">
+            {% for message in messages %}
+              <p>{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Rest of your form remains the same -->
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button class="loginbutton" type="submit">Login</button>
+      </form>
+      <div class="bottom-text">
+        Don't have an account? <a href="/user/sign-up">Sign Up</a>
+      </div>
+
+      <div class="divider">or</div>
+
+      <div class="social-icons">
+        <img src="{% static 'hardware/image/googlelogo.png' %}" alt="Google" />
+        <img src="{% static 'hardware/image/facebooklogo.png' %}" alt="Facebook" />
+      </div>
+    </div>
+    <img id="login" src="{% static 'hardware/image/in.png' %}" alt="" />
+  </body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Collection of Product</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      font-family: 'Poppins';
+      background: linear-gradient(to right, #fff9e6, #ffffff);
+      color: #333;
+    }
+    /* Navigation */
+    nav {
+      background: #fff;
+      border-bottom: 2px solid #eee;
+      display: flex;
+      justify-content: center;
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-center {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-center a {
+      color: #333;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-center a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #ffcc00;
+      transition: width 0.3s ease-in-out;
+    }
+    
+    .nav-center a:hover {
+      color: #ff9900;
+    }
+    
+    .nav-center a:hover::after {
+      width: 100%;
+    }
+    
+    /* Logo */
+    .logocontainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      margin-top: -2%;
+      margin-left: -60%;
+    }
+    
+    #logo {
+      height: 60px;
+      margin-right: 10px;
+    }
+    
+    #firstheader {
+      font-family: 'Dancing Script', cursive;
+      font-size: 36px;
+      color: #ff9900;
+      font-weight: bold;
+      margin-top: -1%;
+    }
+    
+    .container {
+      display: flex;
+      max-width: 1000px;
+      margin: 0 auto;
+      gap: 20px;
+    }
+    .checkout-container,
+    .bill-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 50%;
+    }
+    .bill-container {
+      height: fit-content;
+    }
+    h2 {
+      text-align: center;
+      color: #ff9900;
+      margin-bottom: 20px;
+    }
+    form label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: 500;
+    }
+    form input,
+    form textarea,
+    form select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: 0.3s;
+      
+    }
+    form input:focus,
+    form textarea:focus,
+    form select:focus {
+      border-color: #ff9900;
+      box-shadow: 0 0 5px rgba(255, 153, 0, 0.3);
+    }
+    .checkout-btn {
+      background: #ffcc00;
+      color: #fff;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .checkout-btn:hover {
+      background: #ff9900;
+    }
+    .bill-container h3 {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+      color: #ff9900;
+    }
+    .bill-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .total {
+      font-weight: bold;
+      color: #333;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+  </style>
+
+  <body>
+    <nav>
+      <div class="nav-center">
+        <a href="/first">Home</a>
+        <a href="Services.html">About Us</a>
+        <a href="/collection">Collection</a>
+        <a href="/cart">Your Cart</a>
+
+        <a href="Contact.html">Contact</a>
+        <a href="/profile">Profile</a>
+      </div>
+    </nav>
+
+    <div class="logocontainer">
+      <img src="logo.png" alt="logoshere" id="logo" />
+      <h1 id="firstheader">ToolHub</h1>
+    </div>
+
+    <div class="container">
+      <!-- Checkout Form -->
+      <div class="checkout-container">
+        <h2>Checkout Form</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="checkout-btn">Place Order</button>
+        </form>
+      </div>
+
+      <!-- Bill Summary -->
+      <div class="bill-container">
+        <h3>Bill Summary</h3>
+        <div class="bill-item">
+          <span>Subtotal:</span>
+          <span>Rs. <span id="subtotal">{{ subtotal }}</span></span>
+        </div>
+        <div class="bill-item">
+          <span>Delivery Charge:</span>
+          <span>Rs. <span id="delivery-charge">0</span></span>
+        </div>
+        <div class="bill-item total">
+          <span>Total:</span>
+          <span>Rs. <span id="total">{{ subtotal }}</span></span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const deliverySelect = document.getElementById('id_delivery_area')
+      const subtotal = parseInt(document.getElementById('subtotal').textContent)
+      const deliveryChargeElem = document.getElementById('delivery-charge')
+      const totalElem = document.getElementById('total')
+      
+      deliverySelect.addEventListener('change', function () {
+        let deliveryCharge = 0
+        if (this.value === 'Inside Valley') {
+          deliveryCharge = 100
+        } else if (this.value === 'Outside Valley') {
+          deliveryCharge = 150
+        }
+        deliveryChargeElem.textContent = deliveryCharge
+        totalElem.textContent = subtotal + deliveryCharge
+      })
+    </script>
+  </body>
+</html>

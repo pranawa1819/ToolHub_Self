@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  {%load static%}
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fff9e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    <!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fff9e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container_signup {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      margin-left: 10%;
+    }
+
+    h2 {
+      color: #ffaa00;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      margin-top: -5%;
+    }
+
+    .form input[type="text"],
+    .form input[type="email"],
+    .form input[type="password"] {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form input:focus {
+      border-color: #ff9900;
+      outline: none;
+    }
+
+    .signupbutton {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, #ffcc00, #ff9900);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .signupbutton:hover {
+      background: linear-gradient(to right, #ffc107, #ff8800);
+    }
+
+    .bottom-text {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .bottom-text a {
+      color: #ff6600;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .bottom-text a:hover {
+      text-decoration: underline;
+    }
+
+    .form .errorlist {
+      color: red;
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    img {
+      height: 500px;
+      margin-left: 26%;
+      margin-top: -6px;
+    }
+    .form-group {
+  margin-bottom: 24px;
+  text-align: left; /* Ensure content aligns left */
+}
+
+.form-group .error-message {
+  color: red;
+  font-size: 13px;
+  margin: 4px 0 0 0; /* Adjust margin to be under the input */
+  padding: 0;
+  line-height: 1.1;
+  margin-top: -5%;
+  list-style: none; /* Remove bullet points if using list items */
+}
+    .terms {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .terms input {
+      margin-right: 8px;
+    }
+
+    .divider {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .divider:not(:empty)::before {
+      margin-right: .5em;
+    }
+
+    .divider:not(:empty)::after {
+      margin-left: .5em;
+    }
+
+    .social-icons {
+      
+      justify-content: center;
+      gap: 10px;
+      margin-left: -10%;
+     
+    }
+
+    .social-icons img {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+      @media (min-width: 768px) {
+      body {
+        flex-wrap: nowrap;
+      }
+      img {
+        height: 500px;
+        margin-left: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="container_signup">
+  <h2>Sign Up</h2>
+  <p style="font-size:13px;">Welcome to our platform! <br> Please fill in the details below to create your account.</p>
+  <br>
+
+  <form id="signupForm" method="POST" class="form" onsubmit="return validateForm()">
+    {% csrf_token %}
+    <div class="form-group">
+                        
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                        <div class="error-message">
+                            {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <div class="error-message">
+                            {% for error in form.email.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                        <div class="error-message">
+                            {% for error in form.password1.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                      
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                        <div class="error-message">
+                            {% for error in form.password2.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                        
+    <div class="terms">
+      <input type="checkbox" id="termsCheckbox">
+      <label for="termsCheckbox">I accept the <a href="#">Terms and Conditions</a></label>
+    </div>
+
+    <button class="signupbutton" type="submit">Sign Up</button>
+
+    <div class="divider">or</div>
+
+    <div class="social-icons">
+      <img src="{% static 'hardware/image/googlelogo.png' %}" alt="Google">
+      <img src="{% static 'hardware/image/facebooklogo.png' %}" alt="Facebook">
+    </div>
+  </form>
+
+  <div class="bottom-text">
+    Already have an account? <a href="/user/login">Login</a>
+  </div>
+</div>
+
+<img id="login" src="{% static 'hardware/image/up.png' %}" alt="">
+
+<script>
+  function validateForm() {
+    var checkbox = document.getElementById('termsCheckbox');
+    if (!checkbox.checked) {
+      alert('You must accept the Terms and Conditions to proceed.');
+      return false;
+    }
+    return true;
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Plumbing Products</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      font-family: 'Poppins';
+      background: linear-gradient(to right, #fff9e6, #ffffff);
+      color: #333;
+    }
+    /* Navigation */
+    nav {
+      background: #fff;
+      border-bottom: 2px solid #eee;
+      display: flex;
+      justify-content: center;
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-center {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-center a {
+      color: #333;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-center a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #ffcc00;
+      transition: width 0.3s ease-in-out;
+    }
+    
+    .nav-center a:hover {
+      color: #ff9900;
+    }
+    
+    .nav-center a:hover::after {
+      width: 100%;
+    }
+    
+    /* Logo */
+    .logocontainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      margin-top: -2%;
+      margin-left: -60%;
+    }
+    
+    #logo {
+      height: 60px;
+      margin-right: 10px;
+    }
+    
+    #firstheader {
+      font-family: 'Dancing Script', cursive;
+      font-size: 36px;
+      color: #ff9900;
+      font-weight: bold;
+      margin-top: -1%;
+    }
+    
+    /* Search Bar */
+    .search-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 30px auto;
+      width: 60%;
+      background: #fff;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      margin-top: 3%;
+    }
+    
+    .search-container select,
+    .search-container input {
+      padding: 15px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+      flex: 1;
+    }
+    
+    .search-container select {
+      flex: 0 0 150px;
+      background: #f9f9f9;
+      border-right: 1px solid #ddd;
+    }
+    
+    .search-button {
+      background: #ffcc00;
+      color: #fff;
+      padding: 0 30px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .search-button:hover {
+      background: #ff9900;
+    }
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #fffbe6, #ffe0b3);
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      padding: 40px 60px;
+      width: 85%;
+      align-items: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-text {
+      flex: 1;
+    }
+    
+    .hero-text h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    
+    .hero-text p {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    
+    .hero-text .btn {
+      background: #ffcc00;
+      padding: 12px 25px;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 25px;
+      transition: background 0.3s ease;
+      font-size: 1.1rem;
+    }
+    
+    .hero-text .btn:hover {
+      background: #ff9900;
+    }
+    
+    .hero img {
+      width: 20%;
+    }
+    /* Features */
+    .features {
+      display: flex;
+      justify-content: space-between;
+      width: 85%;
+      margin: 50px auto;
+      gap: 20px;
+      margin-top: 3%;
+    }
+    
+    .feature-box {
+      flex: 1;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s;
+    }
+    
+    .feature-box:hover {
+      transform: translateY(-8px);
+    }
+    
+    .feature-box h3 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .feature-box p {
+      color: #777;
+      font-size: 14px;
+    }
+    
+    /* Product Section */
+    .container {
+      width: 90%;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .header h2 {
+      font-size: 28px;
+      color: #333;
+    }
+    
+    .filter-options span {
+      background: #eee;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: 0.3s;
+    }
+    
+    .filter-options .active,
+    .filter-options span:hover {
+      background: #ff9900;
+      color: #000;
+    }
+    
+    /* Featured Products */
+    .featureproducts-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 20px;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+    
+    .featureproducts-card {
+      position: relative; /* FIX for badge */
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .featureproducts-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    
+    .product-name {
+      display: block;
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .price {
+      color: #e84118;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .old-price {
+      color: #aaa;
+      text-decoration: line-through;
+      font-size: 14px;
+      color: blue;
+    }
+    
+    /* Badge Fixed */
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #ff4757;
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+    
+    .badge.hot {
+      background: #6c5ce7;
+    }
+    
+    /* Add to cart */
+    .add-to-cart-btn {
+      background-color: #ffcc00;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+    
+    .add-to-cart-btn:hover {
+      background-color: #ff9900;
+    }
+    
+    .addtocartname {
+      display: block;
+      font-family: 'Poppins';
+    
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    /* Banner */
+    .banner {
+      background: linear-gradient(to right, #fff8e1, #ffe082);
+      border-radius: 15px;
+      padding: 40px;
+      text-align: center;
+      margin: 50px auto;
+      position: relative;
+      overflow: hidden;
+      width: 90%;
+    }
+    
+    .banner h1 {
+      font-size: 28px;
+      color: #333;
+    }
+    
+    .banner p {
+      font-size: 16px;
+      color: #666;
+      margin: 10px 0;
+    }
+    
+    .shop-button {
+      padding: 10px 25px;
+      background: #ffcc00;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-radius: 25px;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+    
+    .shop-button:hover {
+      background: #ff9900;
+    }
+    
+    /* Floating Tools Animation */
+    .tools-images img {
+      width: 10%;
+      animation: float 3s ease-in-out infinite;
+      margin-top: 2%;
+    }
+    
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    /* Alert Message */
+    .custom-alert {
+      padding: 15px 20px;
+      margin: 15px auto;
+      border-radius: 8px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 30%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .custom-alert.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .custom-alert.warning {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+
+  <body>
+    <nav>
+      <div class="nav-center">
+        <a href="/first">Home</a>
+        <a href="Services.html">About Us</a>
+        <a href="/collection">Collection</a>
+        <a href="/cart">Your Cart</a>
+
+        <a href="Contact.html">Contact</a>
+        <a href="/profile">Profile</a>
+      </div>
+    </nav>
+
+    <div class="logocontainer">
+      <img src="logo.png" alt="logoshere" id="logo" />
+      <h1 id="firstheader">ToolHub</h1>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="custom-alert {{ message.tags }}">
+          <strong>{{ message }}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+    <script>
+      setTimeout(() => {
+        $('.custom-alert').fadeOut('slow')
+      }, 3000)
+    </script>
+
+    <div class="search-container">
+      <form action="/search" method="GET" style="display: flex; width: 100%;">
+        <select name="category">
+          <option value="">All Categories</option>
+          {% for cat in categories %}
+            <option value="{{ cat.name }}">{{ cat.name }}</option>
+          {% endfor %}
+        </select>
+        <input type="text" name="query" placeholder="Search here" />
+        <button type="submit" class="search-button">Search</button>
+      </form>
+    </div>
+
+    <div class="maincontainer">
+      <div class="hero">
+        <div class="hero-text">
+          <h1>Big choice of <br /> Plumbing products</h1>
+          <p>We offer durable and reliable plumbing products including pipes, fitting, volves, and fauctes ideal for both residental and commercial use ensuring leak free performance</p>
+          <br /><a href="#" class="btn">Shop Now</a>
+        </div>
+        <img src="{% static 'hardware/image/screw.png' %}" alt="" />
+      </div>
+
+      <div class="features">
+        <div class="feature-box">
+          <h3>Free Shipping</h3>
+          <p>For orders from Rs.5000</p>
+        </div>
+        <div class="feature-box">
+          <h3>Support 24/7</h3>
+          <p>Call us anytime</p>
+        </div>
+        <div class="feature-box">
+          <h3>100% Safety</h3>
+          <p>Only secure payments</p>
+        </div>
+        <div class="feature-box">
+          <h3>Hot Offers</h3>
+          <p>Discounts up to 90%</p>
+        </div>
+      </div>
+    </div>
+
+    <br /><br /><br />
+
+    <!-- Featured product */ -->
+
+    <div class="container">
+      <div class="header">
+        <h2>Featured Products</h2>
+        <div class="filter-options">
+          <span class="active">All</span>
+          <span>Power Tools</span>
+          <span>Hand Tools</span>
+          <span>Plumbing</span>
+        </div>
+      </div>
+    </div>
+    <div class="featureproducts-list">
+      {% if featured_products %}
+        {% for product in featured_products %}
+          <div class="featureproducts-card">
+            {% if product.label %}
+              <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
+            {% endif %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
+            <h3><a href="/productdetail/{{ product.pid }}" class="product-name">{{ product.name }}</a></h3>
+
+            <p class="price">Rs {{ product.price }}</p>
+            {% if product.old_price %}
+              <p class="old-price">Rs {{ product.old_price }}</p>
+            {% endif %}
+            <button class="add-to-cart-btn"><a href="/add_to_cart/{{ product.pid }}" class="addtocartname">Add to Cart</a></button>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No featured products available.</p>
+      {% endif %}
+    </div>
+    <br /><br /><br /><br />
+    <!-- Banner -->
+
+    <div class="container1">
+      <div class="banner">
+        <div class="banner-content">
+          <h1>HundredsHand Tools</h1>
+          <p>Hammers, Chisels, Universal Pliers, Nippers, Jigsaws, Saws</p>
+          <br /><a href="#" class="shop-button">Shop Now</a>
+        </div>
+        <div class="tools-images">
+          <img src="{% static 'hardware/image/screwdriver.png' %}" alt="" />
+          <img src="{% static 'hardware/image/saw1.png' %}" alt="" />
+          <img src="{% static 'hardware/image/hammer.png' %}" alt="" />
+          <img src="{% static 'hardware/image/jon.png' %}" alt="" />
+        </div>
+      </div>
+    </div>
+    <br /><br /><br />
+    <h2>Bestsellers</h2>
+    <br /><br /><br />
+  </body>
+</html>

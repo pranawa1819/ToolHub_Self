@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Collection of Product</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      font-family: 'Poppins';
+      background:  linear-gradient(to right, #fff9e6, #ffffff);
+      color: #333;
+      
+    }
+    /* Navigation */
+    nav {
+      background: #fff;
+      border-bottom: 2px solid #eee;
+      display: flex;
+      justify-content: center;
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-center {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-center a {
+      color: #333;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-center a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #ffcc00;
+      transition: width 0.3s ease-in-out;
+    }
+    
+    .nav-center a:hover {
+      color: #ff9900;
+    }
+    
+    .nav-center a:hover::after {
+      width: 100%;
+    }
+    
+    /* Logo */
+    .logocontainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      margin-top: -2%;
+      margin-left: -60%;
+    }
+    
+    #logo {
+      height: 60px;
+      margin-right: 10px;
+    }
+    
+    #firstheader {
+      font-family: 'Dancing Script', cursive;
+      font-size: 36px;
+      color:#ff9900;
+      font-weight: bold;
+      margin-top: -1%;
+    }
+    
+    /* Product Details */
+    /* Product Container */
+    .product-container {
+      display: flex;
+      gap: 40px;
+      padding: 40px 80px;
+      background: #fdfdfd;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      margin: 40px auto;
+      max-width: 1000px;
+    }
+    
+    /* Product Image */
+    .product-image {
+      width: 320px;
+      height: auto;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .product-image:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Product Info */
+    .product-container h2 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .product-container p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    
+    /* Pricing */
+    .price {
+      color: #e84118;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .offer-price {
+      color: blue;
+      text-decoration: line-through;
+      font-size: 14px;
+    }
+    
+    /* Specifications */
+    .specs {
+      margin-top: 25px;
+    }
+    
+    .specs h3 {
+      font-size: 20px;
+      color: #ff9900;
+      margin-bottom: 10px;
+    }
+    
+    .specs ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    
+    .specs li {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+    
+    /* Reviews */
+    /* Container */
+    .reviews {
+      max-width: 700px;
+      margin: 30px auto;
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      color: #333;
+      margin-left:10%;
+      margin-top: 5%;
+    }
+    
+    /* Reviews heading */
+    .reviews > h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #ffcc00;
+      padding-bottom: 8px;
+      font-weight: 600;
+      color: #ff9900;
+      
+    }
+    
+    /* Each review block */
+    .reviews p {
+      background: #fff8e1;
+      border-left: 5px solid #ffcc00;
+      padding: 15px 20px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(255, 204, 0, 0.2);
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+    
+    /* Username and date style */
+    .reviews strong {
+      color: #ff9900;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    /* Date after username */
+    .reviews p strong + text, /* fallback */
+    .reviews p strong + span {
+      margin-left: 8px;
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    /* Rating style */
+    .reviews p br + text, /* fallback */
+    .reviews p br + span {
+      font-weight: 500;
+      color:rgb(199, 170, 55);
+      margin-top: 5px;
+      display: block;
+    }
+    
+    /* Add review form container */
+    .add-review {
+      background: #fff9e6;
+      margin: 40px auto 0;
+      padding: 25px 30px;
+      border-radius: 12px;
+      max-width: 700px;
+      box-shadow: 0 8px 20px rgba(255, 204, 0, 0.15);
+      font-family: 'Poppins', sans-serif;
+      margin-left:55%;
+      margin-top: -12%;
+    }
+    
+    /* Add review heading */
+    .add-review h3 {
+      color: #ff9900;
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 1.6rem;
+    }
+    
+    /* Form labels */
+    .add-review label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #555;
+      font-size: 1rem;
+    }
+    
+    /* Textarea and input */
+    .add-review textarea,
+    .add-review select,
+    .add-review input[type='text'],
+    .add-review input[type='number'] {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border: 2px solid #ffcc00;
+      border-radius: 8px;
+      resize: vertical;
+      margin-bottom: 20px;
+      transition: border-color 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Focus on inputs */
+    .add-review textarea:focus,
+    .add-review select:focus,
+    .add-review input[type='text']:focus,
+    .add-review input[type='number']:focus {
+      outline: none;
+      border-color: #ff9900;
+      box-shadow: 0 0 8px rgba(255, 153, 0, 0.5);
+    }
+    
+    /* Submit button */
+    .add-review button {
+      background-color: #ffcc00;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      max-width: 250px;
+      display: block;
+      margin: 0 auto;
+    }
+    
+    /* Button hover */
+    .add-review button:hover {
+      background-color: #ff9900;
+    }
+    
+    /* Login link style */
+    p a {
+      color: #ff9900;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    p a:hover {
+      text-decoration: underline;
+      color: #ffcc00;
+    }
+    
+    .toggle-btn {
+      font-size: 18px;
+     cursor: pointer;
+     transform: rotate(0deg);
+     transition: transform 0.3s;
+    }
+
+    .review-item.active .toggle-btn {
+     transform: rotate(180deg);
+    }
+    /* Badge Styling (e.g., New, Hot) */
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #fff;
+      background-color: #ff6600;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Badge Colors for dynamic classes if any */
+    .badge.new {
+      background-color: rgb(243, 55, 42);
+    }
+    
+    .badge.hot {
+      background-color: #6c5ce7;
+    }
+    .badge.sale {
+      background: green;
+    }
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+      justify-content: center; /* Center buttons under the image or product info */
+    }
+    
+    .cart-btn,
+    .wishlist-btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Add to Cart Button Style */
+    .cart-btn {
+      background-color: #ffcc00;
+      color: #fff;
+      
+    }
+    
+    .cart-btn:hover {
+      background-color:#ff9900;
+      transform: translateY(-2px);
+    }
+    
+    /* Add to Wishlist Button Style */
+    .wishlist-btn {
+      background-color: #ffcc00;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .wishlist-btn:hover {
+      background-color: #ff9900;
+      transform: translateY(-2px);
+    }
+
+    .addtocartname{
+      display: block;
+      font-family: 'Poppins';
+      
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      
+    }
+    
+  </style>
+
+  <body>
+    <nav>
+      <div class="nav-center">
+        <a href="/first">Home</a>
+        <a href="Services.html">About Us</a>
+        <a href="/collection">Collection</a>
+        <a href="/cart">Your Cart</a>
+
+        <a href="Contact.html">Contact</a>
+        <a href="/profile">Profile</a>
+      </div>
+    </nav>
+
+    <div class="logocontainer">
+      <img src="logo.png" alt="logoshere" id="logo" />
+      <h1 id="firstheader">ToolHub</h1>
+    </div>
+
+    <div class="product-container">
+      <div>
+        {% if product.label %}
+          <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
+        {% endif %}
+        <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}" />
+        <!-- Add to Cart & Wishlist Buttons Below Image -->
+        <div class="buttons">
+          <button type="submit" class="cart-btn"><a href="/add_to_cart/{{product.pid}}" class = "addtocartname">Add to Cart</a></button>
+
+          <button type="submit" class="wishlist-btn">Add to Wishlist</button>
+        </div>
+      </div>
+      <div>
+        <h2 style="color:#ff9900">{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p class="price">Current Price: Rs. {{ product.price }}</p>
+        <p class="offer-price">Offer Price: Rs. {{ product.old_price }}</p>
+
+        <div class="specs">
+          <h3>Specifications:</h3>
+          <ul>
+            {% for spec in product.specification.splitlines %}
+              <li>{{ spec }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+       
+      </div>
+    </div>
+
+    <div clss = "Review_container">
+       <div class="reviews">
+          
+          <h3>Reviews: </h3>
+          
+          {% for review in reviews %}
+            <p>
+              <strong>{{ review.user.username }}</strong>:{{ review.created_at }}<br /> Rating: ({{ review.rating }}/5) <br /> {{ review.review }}
+            </p>
+          {% empty %}
+            <p>No reviews yet.</p>
+          {% endfor %}
+        </div>
+
+        {% if user.is_authenticated %}
+          <div class="add-review">
+            <h3>Add a Review:</h3>
+            <form method="POST">
+              {% csrf_token %}
+              {{ form.review.label_tag }}
+              {{ form.review }}
+              {{ form.rating.label_tag }}
+              {{ form.rating }}
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        {% else %}
+          <p>
+            <a href="{% url 'login' %}">Login to add review</a>
+          </p>
+        {% endif %}
+    </div>
+    
+  </body>
+</html>

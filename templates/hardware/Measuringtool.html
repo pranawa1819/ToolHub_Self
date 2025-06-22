@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Collection of Product</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      font-family: 'Poppins';
+      background: linear-gradient(to right, #fff9e6, #ffffff);
+      color: #333;
+      
+    }
+    /* Navigation */
+    nav {
+      background: #fff;
+      border-bottom: 2px solid #eee;
+      display: flex;
+      justify-content: center;
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-center {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-center a {
+      color: #333;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-center a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #ffcc00;
+      transition: width 0.3s ease-in-out;
+    }
+    
+    .nav-center a:hover {
+      color: #ff9900;
+    }
+    
+    .nav-center a:hover::after {
+      width: 100%;
+    }
+    
+    /* Logo */
+    .logocontainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      margin-top: -2%;
+      margin-left: -60%;
+    }
+    
+    #logo {
+      height: 60px;
+      margin-right: 10px;
+    }
+    
+    #firstheader {
+      font-family: 'Dancing Script', cursive;
+      font-size: 36px;
+      color: #ff9900;
+      font-weight: bold;
+      margin-top: -1%;
+    }
+    
+    .page-title {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 5%;
+      margin-left: 10%;
+    }
+    
+    .product-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 70%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+    }
+    
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #ff4757;
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+    
+    .badge.hot {
+      background: #6c5ce7;
+    }
+    
+    .product-name {
+      
+      margin: 10px 0;
+      font-size: 16px;
+      color: black;
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: block;
+      text-decoration: none;
+    }
+    
+    .price {
+      color: #e84118;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .old-price {
+      color: #aaa;
+      text-decoration: line-through;
+      font-size: 14px;
+      color: blue;
+    }
+    
+    .add-to-cart {
+      margin-top: 10px 0;
+      background: #ffcc00;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .add-to-cart:hover {
+      background: #ff9900;
+    }
+    .addtocartname{
+      display: block;
+      font-family: 'Poppins';
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+      
+    }
+    
+  </style>
+
+  <body>
+    <nav>
+      <div class="nav-center">
+        <a href="/first">Home</a>
+        <a href="Services.html">About Us</a>
+        <a href="/collection">Collection</a>
+        <a href="/cart">Your Cart</a>
+
+        <a href="Contact.html">Contact</a>
+        <a href="/profile">Profile</a>
+      </div>
+    </nav>
+
+    <div class="logocontainer">
+      <img src="logo.png" alt="logoshere" id="logo" />
+      <h1 id="firstheader">ToolHub</h1>
+    </div>
+
+    <h1 class="page-title">Measuring Tools Collection</h1>
+    <div class="product-grid">
+      {% for product in products %}
+        <div class="product-card">
+          {% if product.label %}
+            <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
+          {% endif %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
+          <h3><a href="/productdetail/{{ product.pid }}" class="product-name">{{ product.name }}</a></h3>
+
+          <p class="price">Rs {{ product.price }}</p>
+          {% if product.old_price %}
+            <p class="old-price">Rs {{ product.old_price }}</p>
+          {% endif %}
+          
+          <button class="add-to-cart"><a href="/add_to_cart/{{product.pid}}" class = "addtocartname">Add to Cart</a></button>
+        </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
