@@ -27,7 +27,7 @@ class WishlistAdmin(admin.ModelAdmin):
     list_display = ['user','product','created_at']
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['full_name','phone','address','delivery_area','payment_method','created_at']
+    list_display = ['full_name','phone','address','delivery_area','payment_method','created_at','total_amount']
 
   
 admin.site.register(Product, productAdmin)

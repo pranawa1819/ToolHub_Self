@@ -122,13 +122,13 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       transition: 0.3s;
-      
     }
     form input:focus,
     form textarea:focus,
     form select:focus {
       border-color: #ff9900;
       box-shadow: 0 0 5px rgba(255, 153, 0, 0.3);
+      outline: none;
     }
     .checkout-btn {
       background: #ffcc00;
@@ -190,7 +190,33 @@
         <h2>Checkout Form</h2>
         <form method="post">
           {% csrf_token %}
-          {{ form.as_p }}
+          <div>
+            <label for="id_full_name">Full name:</label>
+            {{ form.full_name }}
+          </div>
+          <div>
+            <label for="id_phone">Phone:</label>
+            {{ form.phone }}
+          </div>
+          <div>
+            <label for="id_address">Address:</label>
+            {{ form.address }}
+          </div>
+          <div>
+            <label for="id_delivery_area">Delivery area:</label>
+            {{ form.delivery_area }}
+          </div>
+
+          <!-- Payment Method Dropdown -->
+          <div>
+            <label for="id_payment_method">Payment Method:</label>
+            {{ form.payment_method }}
+          </div>
+
+          <div>
+            <label for="id_notes">Notes:</label>
+            {{ form.notes }}
+          </div>
           <button type="submit" class="checkout-btn">Place Order</button>
         </form>
       </div>
@@ -203,32 +229,53 @@
           <span>Rs. <span id="subtotal">{{ subtotal }}</span></span>
         </div>
         <div class="bill-item">
+          <span>VAT (13%):</span>
+          <span>Rs. <span id="vat">{{ vat }}</span></span>
+        </div>
+        <div class="bill-item">
           <span>Delivery Charge:</span>
           <span>Rs. <span id="delivery-charge">0</span></span>
         </div>
         <div class="bill-item total">
           <span>Total:</span>
-          <span>Rs. <span id="total">{{ subtotal }}</span></span>
+          <span>Rs. <span id="total">{{ grand_total }}</span></span>
         </div>
       </div>
     </div>
 
     <script>
+      // Calculate total on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        const subtotal = parseFloat(document.getElementById('subtotal').textContent) || 0
+        const vat = parseFloat(document.getElementById('vat').textContent) || 0
+        const deliveryCharge = parseInt(document.getElementById('delivery-charge').textContent) || 0
+        const currentTotal = subtotal + vat
+        document.getElementById('total').textContent = currentTotal + deliveryCharge
+      })
+      
+      // Delivery area change handler
       const deliverySelect = document.getElementById('id_delivery_area')
-      const subtotal = parseInt(document.getElementById('subtotal').textContent)
+      const subtotalElem = document.getElementById('subtotal')
+      const vatElem = document.getElementById('vat')
       const deliveryChargeElem = document.getElementById('delivery-charge')
       const totalElem = document.getElementById('total')
       
-      deliverySelect.addEventListener('change', function () {
-        let deliveryCharge = 0
-        if (this.value === 'Inside Valley') {
-          deliveryCharge = 100
-        } else if (this.value === 'Outside Valley') {
-          deliveryCharge = 150
-        }
-        deliveryChargeElem.textContent = deliveryCharge
-        totalElem.textContent = subtotal + deliveryCharge
-      })
+      if (deliverySelect) {
+        deliverySelect.addEventListener('change', function () {
+          const subtotal = parseFloat(subtotalElem.textContent) || 0
+          const vat = parseFloat(vatElem.textContent) || 0
+          let deliveryCharge = 0
+      
+          if (this.value === 'Inside Valley') {
+            deliveryCharge = 100
+          } else if (this.value === 'Outside Valley') {
+            deliveryCharge = 150
+          }
+      
+          deliveryChargeElem.textContent = deliveryCharge
+          totalElem.textContent = (subtotal + vat + deliveryCharge).toFixed(2)
+        })
+      }
     </script>
   </body>
 </html>

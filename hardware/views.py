@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, ProductImage,Product_Review
+from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, ProductImage,Product_Review,Order
 from hardware.form import ReviewForm , OrderForm
 from django.contrib.auth.models import User
 import uuid
 from decimal import Decimal
+from django.urls import reverse
+from django.db import transaction
 
 # Create your views here.
 def index(request):
@@ -181,6 +183,7 @@ def cart_view(request):
     return render(request, 'hardware/cart.html', context )
 
 
+
 def remove_from_cart(request, pid):
     cart_item = cartOrderItem.objects.get(id=pid, user=request.user)
 
@@ -194,16 +197,116 @@ def remove_from_cart(request, pid):
 
     return redirect('hardware:cart')
 
+
+
+@transaction.atomic
 def checkoutpage(request):
+    # Fetch user's cart items
+    cart_items = cartOrderItem.objects.filter(user=request.user, product_status='processing')
+    
+
+    # Calculate prices
+    subtotal = sum(item.total for item in cart_items)
+    vat = subtotal * Decimal('0.13')
+    grand_total = subtotal + vat
+
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            form.save()
-            return render(request, 'checkout_success.html')  # Create this template for success page
-        
+            try:
+                order = form.save(commit=False)
+                order.user = request.user
+                order.subtotal = subtotal
+                order.vat = vat
+
+                # Delivery charge calculation
+                delivery_area = form.cleaned_data.get('delivery_area')
+                order.delivery_charge = 100 if delivery_area == 'Inside Valley' else 150
+                order.total_amount = grand_total + order.delivery_charge
+                order.save()
+                for item in cart_items:
+                    item.order = order   # Now order.id exists
+                    item.product_status = 'ordered'
+                    item.save()
+                    
+                    
+                # Assign order to each cart item
+                cartOrder.update(order=order, product_status='ordered')
+                 
+                # Delete user's cartOrder (parent) if exists
+               # cartOrderItem.objects.filter(user=request.user, order_status='processing').delete()
+                
+                # Redirect based on payment method
+                if order.payment_method == 'cash_on_delivery':
+                    return redirect('hardware:order_confirmation', order_id=order.id)
+                elif order.payment_method == 'esewa':
+                    return initiate_esewa_payment(request, order)
+                
+                cart_items.delete()
+            except Exception as e:
+                return render(request, 'hardware/order_confirmation.html', {
+                    'form': form,
+                    'error': f"Error placing order: {e}",
+                    'subtotal': subtotal,
+                    'vat': vat,
+                    'grand_total': grand_total,
+                })
     else:
-        form = OrderForm()
-    return render(request, 'hardware/checkout.html', {'form': form})
+        # Prefill form with last order data
+        initial_data = {}
+        last_order = Order.objects.filter(user=request.user).order_by('-created_at').first()
+        if last_order:
+            initial_data = {
+                'full_name': last_order.full_name,
+                'phone': last_order.phone,
+                'address': last_order.address,
+                'delivery_area': last_order.delivery_area,
+                'payment_method': last_order.payment_method,
+            }
+        form = OrderForm(initial=initial_data)
+
+    return render(request, 'hardware/checkout.html', {
+        'form': form,
+        'subtotal': subtotal,
+        'vat': vat,
+        'grand_total': grand_total,
+    })
+
+def initiate_esewa_payment(request, order):
+    return_url = request.build_absolute_uri(reverse('payment_success'))
+    failure_url = request.build_absolute_uri(reverse('payment_failure'))
+    
+    esewa_params = {
+        'amt': str(order.total_amount),
+        'pdc': '0',
+        'psc': '0',
+        'txAmt': '0',
+        'tAmt': str(order.total_amount),
+        'pid': f"order_{order.id}",
+        'scd': 'YOUR_ESEWA_MERCHANT_CODE',  # Replace with your actual code
+        'su': return_url,
+        'fu': failure_url,
+    }
+    
+    return render(request, 'hardware/esewa_redirect.html', {
+        'esewa_url': "https://uat.esewa.com.np/epay/main",
+        'esewa_params': esewa_params,
+    })
+
+
+def order_confirmation(request, order_id):
+    # Get the specific order for the current user or return 404
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Get all items for this order
+    order_items = cartOrderItem.objects.filter(order=order)
+    
+    context = {
+        'order': order,
+        'order_items': order_items,
+    }
+    return render(request, 'hardware/order_confirmation.html', context)
+
 
 
 def searchs(request):

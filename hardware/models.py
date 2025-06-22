@@ -10,7 +10,7 @@ STATUS_CHOICE =(
     ("processing", "Processing"),
     ("shipped", "Shipped"),
     ("delivered", "Delivered"),
-    
+    ("ordered", "Ordered"),
 )
 
 STATUS = (
@@ -172,13 +172,18 @@ class Order(models.Model):
         ('Esewa', 'Esewa'),
         ('Khalti', 'Khalti'),
     )
-
+    id =  models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
     address = models.TextField()
     delivery_area = models.CharField(max_length=20, choices=DELIVERY_CHOICES)
     notes = models.TextField(blank=True, null=True)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    vat = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    delivery_charge = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
         verbose_name_plural = "Orders"
