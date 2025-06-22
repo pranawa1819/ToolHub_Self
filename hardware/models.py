@@ -172,7 +172,7 @@ class Order(models.Model):
         ('Esewa', 'Esewa'),
         ('Khalti', 'Khalti'),
     )
-    id =  models.AutoField(primary_key=True)
+    id =  ShortUUIDField(primary_key=True,unique=True, length = 10, max_length=20, prefix="ord", alphabet="abcdefgh12345")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
@@ -189,3 +189,15 @@ class Order(models.Model):
         verbose_name_plural = "Orders"
     def __str__(self):
         return f"{self.full_name} - {self.payment_method}"
+    
+class OrderItem(models.Model):
+    
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    
+    item = models.CharField(max_length=200)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.item

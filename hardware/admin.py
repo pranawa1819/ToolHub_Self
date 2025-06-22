@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, Order, ProductImage,Product_Review
+from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, Order, ProductImage,Product_Review,OrderItem
 # Register your models here.
 
 class ProductImageAdmin(admin.TabularInline):
@@ -29,7 +29,9 @@ class WishlistAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['full_name','phone','address','delivery_area','payment_method','created_at','total_amount']
 
-  
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('order',  'item', 'quantity', 'price', 'total')
+ 
 admin.site.register(Product, productAdmin)
 admin.site.register(Category,CatogeryAdmin)
 admin.site.register(cartOrder,cartOrderAdmin)
@@ -37,3 +39,4 @@ admin.site.register(cartOrderItem,cartOrderItemAdmin)
 admin.site.register(Product_Review,ProductReviewAdmin)
 admin.site.register(Wishlist,WishlistAdmin)
 admin.site.register(Order,OrderAdmin)
+admin.site.register(OrderItem,OrderItemAdmin)

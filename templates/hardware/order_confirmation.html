@@ -51,29 +51,25 @@
 </head>
 <body>
     <div class="message">
-    <h1>Thank You!</h1>
-    <p><strong>Order ID:</strong> {{ order.id }}</p>
-    <p><strong>Name:</strong> {{ order.full_name }}</p>
-    <p><strong>Phone:</strong> {{ order.phone }}</p>
-    <p><strong>Address:</strong> {{ order.address }}, {{ order.delivery_area }}</p>
-    <p><strong>Payment Method:</strong> {{ order.payment_method|capfirst }}</p>
+ <h3>Customer Details:</h3>
+<p><strong>Name:</strong> {{ order.full_name }}</p>
+<p><strong>Phone:</strong> {{ order.phone }}</p>
+<p><strong>Address:</strong> {{ order.address }}</p>
+<p><strong>Delivery Area:</strong> {{ order.delivery_area }}</p>
+<p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+<p><strong>Notes:</strong> {{ order.notes|default:"None" }}</p>
 
-    <div class="order-items">
-        <h3>Order Items:</h3>
-        {% for item in order_items %}
-            <div class="order-item">
-                <span>{{ item.product.title }} (x{{ item.qty }})</span>
-                <span>Rs. {{ item.total }}</span>
-            </div>
-        {% endfor %}
-    </div>
+<h3>Bill Summary:</h3>
+<p><strong>Subtotal:</strong> Rs. {{ order.subtotal }}</p>
+<p><strong>VAT (13%):</strong> Rs. {{ order.vat }}</p>
+<p><strong>Delivery Charge:</strong> Rs. {{ order.delivery_charge }}</p>
+<p><strong>Total Amount:</strong> Rs. {{ order.total_amount }}</p>
 
-    <hr>
-    <p><strong>Subtotal:</strong> Rs. {{ order.subtotal }}</p>
-    <p><strong>VAT (13%):</strong> Rs. {{ order.vat }}</p>
-    <p><strong>Delivery Charge:</strong> Rs. {{ order.delivery_charge }}</p>
-    <p><strong>Total Amount:</strong> Rs. {{ order.total_amount }}</p>
-    <a href='/first'>Continue Shopping</a>
+<h3>Ordered Products:</h3>
+{% for item in order_items %}
+  <p>{{ item.item }} - {{ item.quantity }} pcs - Rs. {{ item.total }}</p>
+{% endfor %}
+<a href='/first'>Continue Shopping</a>
 </div>
 
 </body>
