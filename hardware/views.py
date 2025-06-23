@@ -188,7 +188,9 @@ def remove_from_cart(request, pid):
 
     cart_order = cart_item.order
     cart_item.delete()
-
+    
+    if cart_order.paid_status == True and cart_order.order_status == 'Completed':
+        cart_item.delete()  # Delete the item
     # Recalculate order price
     remaining_items = cartOrderItem.objects.filter(order=cart_order)
     cart_order.price = sum(item.total for item in remaining_items)
@@ -200,19 +202,29 @@ def remove_from_cart(request, pid):
 
 
 
+
+
 def checkoutpage(request):
     user = request.user
-    cart_order = cartOrder.objects.filter(user=user, paid_status=False).first()
-    cart_items = cartOrderItem.objects.filter(user=user, order=cart_order)
-
+    cart_order = cartOrder.objects.filter(user=user, paid_status=False, order_status='processing').first()
     
+    if not cart_order:
+        messages.error(request, "No active cart found!")
+        return redirect('hardware:cart')
+
+    # Filter out items whose order_status is 'Ordered' (already placed)
+    cart_items = cartOrderItem.objects.filter(
+        user=user, 
+        order=cart_order
+    ).exclude(order__order_status='ordered')  # skip 'Ordered' items in billing
 
     # Billing calculation
     subtotal = sum(item.total for item in cart_items)
     vat = subtotal * Decimal('0.13')
-    delivery_charge = Decimal('100.00')  # default, update later if needed
+    delivery_charge = Decimal('100.00')  # default
     total_amount = subtotal + vat + delivery_charge
 
+    # Rest same
     last_order = Order.objects.filter(user=user).last()
     initial_data = {}
     if last_order:
@@ -227,16 +239,13 @@ def checkoutpage(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            order = form.save(commit=False)  # Don't save yet
+            order = form.save(commit=False)
             order.user = user
             order.subtotal = subtotal
             order.vat = vat
 
             delivery_area = form.cleaned_data['delivery_area']
-            if delivery_area == 'Inside Valley':
-                delivery_charge = Decimal('100.00')
-            elif delivery_area == 'Outside Valley':
-                delivery_charge = Decimal('150.00')
+            delivery_charge = Decimal('100.00') if delivery_area == 'Inside Valley' else Decimal('150.00')
 
             order.delivery_charge = delivery_charge
             order.total_amount = subtotal + vat + delivery_charge
@@ -252,18 +261,15 @@ def checkoutpage(request):
                     total=item.total
                 )
 
-            if cart_order and cart_items.exists():
-             cart_order.paid_status = True
-             cart_order.order_status = 'Completed'
-             cart_order.save()
-             
-            else:
-             return redirect('hardware:cart')
-            
-             # Check payment method & redirect accordingly
             if order.payment_method == 'Cash on Delivery':
-                return redirect('hardware:order_confirmation', id=order.id)
-            
+                cart_order.paid_status = False
+                cart_order.order_status = 'ordered'
+            elif order.payment_method == 'Esewa':
+                cart_order.paid_status = True
+                cart_order.order_status = 'completed'
+
+            cart_order.save()
+            return redirect('hardware:order_confirmation', id=order.id)
     else:
         form = OrderForm(initial=initial_data)
 
@@ -276,7 +282,6 @@ def checkoutpage(request):
         'delivery_charge': delivery_charge,
         'grand_total': total_amount
     })
-
 
 def order_confirmation(request, id):
     order = get_object_or_404(Order, id=id, user=request.user)
@@ -304,6 +309,26 @@ def order_confirmation(request, id):
         'order': order,
         'order_items': order_items
     })
+
+
+def cancel_order(request, id):
+    cart_order = get_object_or_404(cartOrder, user=request.user, id=id)
+
+    if cart_order.order_status == 'Ordered' and not cart_order.paid_status:
+        cart_order.order_status = 'Canceled'
+        cart_order.save()
+
+        # Delete only this order's items
+        cart_items = cartOrderItem.objects.filter(user=request.user, order=cart_order)
+        cart_items.delete()
+
+        messages.success(request, "Order has been canceled successfully.")
+    else:
+        messages.error(request, "Order cannot be canceled.")
+
+    return redirect('hardware:cart')
+
+
 
 
 

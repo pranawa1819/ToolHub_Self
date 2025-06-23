@@ -11,6 +11,13 @@ STATUS_CHOICE =(
     ("shipped", "Shipped"),
     ("delivered", "Delivered"),
     ("ordered", "Ordered"),
+    ("cancelled", "Cancelled"),
+    ("returned", "Returned"),
+    ("refunded", "Refunded"),
+    ("completed", "Completed"),
+    ("pending", "Pending"),
+    ("failed", "Failed"),
+    ('', 'None'),
 )
 
 STATUS = (
@@ -117,7 +124,7 @@ class cartOrderItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     order = models.ForeignKey(cartOrder, on_delete=models.CASCADE , null = True)
     invoice_no = models.CharField(max_length=200)
-    product_status = models.CharField(max_length=200)
+    product_status = models.CharField(max_length=200,choices=STATUS_CHOICE,default="null")
     item = models.CharField(max_length=200)
     image = models.ImageField(upload_to='cart_items/', null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
