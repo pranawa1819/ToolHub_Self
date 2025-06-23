@@ -5,6 +5,7 @@ from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from userauths.models import User
+from django.utils import timezone
 
 STATUS_CHOICE =(
     ("processing", "Processing"),
@@ -89,6 +90,7 @@ class Product(models.Model):
     featured = models.BooleanField(default=False) #used to check if product is featured
     created_at = models.DateTimeField(auto_now_add=True) # used to check when product was created
     updated_at = models.DateTimeField(auto_now=True) # used to check when product was updated
+    
     
     class Meta:
         verbose_name_plural = "Products"
@@ -208,3 +210,10 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.item
+
+ 
+class ProductView(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_image = models.ImageField(upload_to='recently_viewed/')
+    viewed_at = models.DateTimeField(default=timezone.now)

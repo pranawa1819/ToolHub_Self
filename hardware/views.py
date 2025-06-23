@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, ProductImage,Product_Review,Order,OrderItem
+from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, ProductImage,Product_Review,Order,OrderItem,ProductView
 from hardware.form import ReviewForm , OrderForm
 from django.contrib.auth.models import User
 import uuid
 from decimal import Decimal
 from django.contrib import messages
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
@@ -25,8 +26,50 @@ def signuppage(request):
 def loginpage(request):
     return render(request, 'userauths/login.html')
 
+def aboutpage(request):
+    return render(request, 'hardware/aboutus.html')
+
+def contactpage(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        message = request.POST.get("message")
+
+        full_message = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+        send_mail(
+            subject,
+            full_message,
+            email,
+            ['toolhubofficial@example.com'],  # Your business email
+            fail_silently=False,
+        )
+        messages.success(request, "Message sent successfully!")
+    return render(request, 'hardware/contact.html')
+
 def profilepage(request):
-    return render(request, 'hardware/profile.html')
+    user = request.user
+    orders = cartOrder.objects.filter(user=user).order_by('-order_date')
+
+    for order in orders:
+        order.items = cartOrderItem.objects.filter(order=order)  # correct usage
+
+    recently_viewed = Product.objects.filter(
+        pid__in=ProductView.objects.filter(user=user)
+                                   .order_by('-viewed_at')
+                                   .values_list('product__pid', flat=True)[:4]
+    )
+
+    context = {
+        'user': user,
+        'orders': orders,
+        'recently_viewed': recently_viewed,
+    }
+    return render(request, 'hardware/profile.html', context)
+
+
+
 
 def collectionpage(request):
     
@@ -290,7 +333,7 @@ def order_confirmation(request, id):
     paid_cart_orders = cartOrder.objects.filter(user=request.user, paid_status=True)
     
     if not paid_cart_orders.exists():
-        messages.error(request, "No completed cart order found!")
+        #messages.error(request, "No completed cart order found!")
         return redirect('hardware:cart')
 
     # Get all cart items related to those paid cartOrders

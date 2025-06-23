@@ -1,60 +1,580 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>User Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<html lang="en">
+  {% load static %}
+  <head>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Profile Page</title>
+
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+      /* Reset & base */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+      body {
+        font-family: 'Poppins';
+        background: linear-gradient(to right, #fff9e6, #ffffff);
+        color: #333;
+      }
+      /* Navigation */
+      nav {
+        background: #fff;
+        border-bottom: 2px solid #eee;
+        display: flex;
+        justify-content: center;
+        padding: 15px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      }
+      
+      .nav-center {
+        display: flex;
+        gap: 30px;
+      }
+      
+      .nav-center a {
+        color: #333;
+        font-weight: 600;
+        font-size: 18px;
+        text-decoration: none;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-center a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background-color: #ffcc00;
+        transition: width 0.3s ease-in-out;
+      }
+      
+      .nav-center a:hover {
+        color: #ff9900;
+      }
+      
+      .nav-center a:hover::after {
+        width: 100%;
+      }
+      
+      /* Logo */
+      .logocontainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+        margin-top: -2%;
+        margin-left: -60%;
+      }
+      
+      #logo {
+        height: 60px;
+        margin-right: 10px;
+      }
+      
+      #firstheader {
+        font-family: 'Dancing Script', cursive;
+        font-size: 36px;
+        color: #ff9900;
+        font-weight: bold;
+        margin-top: -1%;
+      }
+      /* Profile Header */
+      .profile-header {
+        max-width: 900px;
+        margin: 0 auto 40px;
+      
+        padding: 30px 40px;
+      
+        text-align: center;
+      }
+      .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+      
+        margin-bottom: 15px;
+      }
+      .profile-header h2 {
+        font-size: 2rem;
+        color: #222;
+      }
+      .profile-header p {
+        color: #666;
+        font-weight: 500;
+      }
+      /* Section Titles */
+      h3 {
+        max-width: 900px;
+        margin: 30px auto 20px;
+        font-weight: 600;
+        color: #333;
+        border-bottom: 2px solid #ffb400;
+        padding-bottom: 8px;
+      }
+      /* Order Card */
+      .order-card {
+        max-width: 900px;
+        margin: 20px auto 35px;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgb(0 0 0 / 0.05);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+      }
+      .order-card:hover {
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.1);
+      }
+      /* Tables */
+      .order-details-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+      }
+      .order-details-table th,
+      .order-details-table td {
+        padding: 14px 20px;
+        text-align: left;
+      }
+      .order-details-table th {
+        background: rgb(228, 212, 168);
+        color: #ff9900;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        user-select: none;
+      }
+      .order-details-table th[colspan='2'],
+      .order-details-table th[colspan='3'] {
+        background: whitesmoke;
+        text-align: center;
+      }
+      .order-details-table tr:nth-child(even) td {
+        background: rgb(248, 248, 234);
+      }
+      .order-details-table tr td {
+        border-bottom: 1px solidrgb(241, 216, 140);
+        color: #444;
+      }
+      .order-details-table tr:last-child td {
+        border-bottom: none;
+      }
+      /* Status Badge */
+      .status {
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        display: inline-block;
+        user-select: none;
+      }
+      .status.ordered {
+        background: #ffe082;
+        color: #ff9800;
+      }
+      .status.processing {
+        background: #fff3e0;
+        color: #fb8c00;
+      }
+      .status.completed {
+        background: #c8e6c9;
+        color: #388e3c;
+      }
+      .status.canceled {
+        background: #ffcdd2;
+        color: #d32f2f;
+      }
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        margin: 10px 5px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        background-color: #ffcc00;
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn:hover {
+        background-color: #ff9900;
+      }
+      /* Settings Section */
+      .settings {
+        max-width: 900px;
+        margin: 20px auto 40px;
+      
+        padding: 25px 40px;
+      
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 600;
+      }
+      
+      .recent-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+        transition: transform 0.3s ease;
+      }
+      
+      .recent-items:hover {
+        transform: translateY(-3px);
+      }
+      
+      .recent-items p {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: #888;
+        font-size: 16px;
+        padding: 10px 0;
+      }
+      
+      .recent-item-card {
+        background: linear-gradient(to top, #fff9e6, #ffffff);
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .recent-item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      }
+      
+      .recent-item-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+      
+      .recent-item-card h4 {
+        font-size: 16px;
+        color: #333;
+        margin: 5px 0;
+      }
+      
+      .recent-item-card p {
+        font-size: 14px;
+        color: #777;
+      }
+      
+      /* Responsive tweaks */
+      @media (max-width: 600px) {
+        .nav-center {
+          gap: 15px;
+          font-size: 0.9rem;
+          flex-wrap: wrap;
         }
-        .profile-box {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 350px;
+        .logocontainer {
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 15px;
+          margin-bottom: 30px;
         }
-        .profile-box img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin-bottom: 15px;
+        #firstheader {
+          font-size: 32px;
         }
-        .profile-box h2 {
-            margin: 0;
-            color: #ff9900;
+        .profile-header,
+        .settings,
+        .order-card {
+          padding: 20px 25px;
+          margin: 15px 10px;
         }
-        .profile-box p {
-            color: #555;
+        .order-details-table th,
+        .order-details-table td {
+          padding: 10px 12px;
         }
         .btn {
-            display: inline-block;
-            margin: 10px 5px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            background-color: #ff6600;
-            color: white;
-            cursor: pointer;
-            text-decoration: none;
+          padding: 10px 20px;
         }
-        .btn:hover {
-            background-color: #e55b00;
-        }
+      }
+
+
+      /* Footer Styling */
+
+
+  footer {
+    background-color: #000;
+    padding: 40px 20px;
+    margin-top: 10%;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .footer-column {
+    flex: 1 1 200px;
+    margin: 10px;
+  }
+
+  .footer-column h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #fff;
+  }
+
+  .footer-column p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.6;
+  }
+
+  .footer-column ul {
+    list-style: none;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 10px;
+  }
+
+  .footer-column ul li a {
+    text-decoration: none;
+    color: #ccc;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+
+  .footer-column ul li a:hover {
+    color: #fff;
+  }
+
+  .footer-social {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .footer-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #ffcc00;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: background 0.3s;
+    margin-top: 10%;
+    margin-left: 20%;
+  }
+
+  .footer-btn:hover {
+    background: #ff9900;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .footer-social img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    margin: 0 10px;
+    border: 2px solid #fff;
+    overflow: hidden;
+  }
+
+  .map-container {
+    width: 80%;
+    height: 60vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+  }
     </style>
-</head>
-<body>
-    <div class="profile-box">
-        <h2>{{ user.username }}</h2>
-        <p>{{ user.email }}</p>
-        <a href="{% url 'userauths:logout' %}" class="btn">LogOut</a>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-center">
+        <a href="/first">Home</a>
+        <a href="/aboutus">About Us</a>
+        <a href="/collection">Collection</a>
+        <a href="/cart">Your Cart</a>
+        <a href="/contact">Contact</a>
+        <a href="/profile">Profile</a>
+      </div>
+    </nav>
+
+    <div class="logocontainer">
+      <img src="logo.png" alt="logoshere" id="logo" />
+      <h1 id="firstheader">ToolHub</h1>
     </div>
-</body>
+
+    <div class="profile-header">
+      <img src="{% static 'media/avatar/profile.jpg' %}" alt="Profile Picture" class="avatar" />
+      <h2>{{ user.username }}</h2>
+      <p>{{ user.email }}</p>
+    </div>
+    <h3>Order History</h3>
+
+    {% for order in orders %}
+      <div class="order-card">
+        <table class="order-details-table">
+          <tr>
+            <th colspan="2">Order Summary - Order ID: #{{ order.id }}</th>
+          </tr>
+          <tr>
+            <td>
+              <strong>Date:</strong>
+            </td>
+            <td>{{ order.order_date|date:'F d, Y' }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Status:</strong>
+            </td>
+            <td>
+              <span class="status {{ order.order_status|lower }}">{{ order.order_status }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Payment Method:</strong>
+            </td>
+            <td>{{ OrderItem.payment_method }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Total Amount:</strong>
+            </td>
+            <td>Rs. {{ order.price }}</td>
+          </tr>
+        </table>
+
+        <br /><br />
+        <table class="order-details-table">
+          <tr>
+            <th colspan="3">Ordered Products</th>
+          </tr>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total (Rs.)</th>
+          </tr>
+          {% if order.items %}
+            {% for item in order.items %}
+              <tr>
+                <td>{{ item.item }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>Rs. {{ item.price }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="3" style="text-align: center;">No products found for this order</td>
+            </tr>
+          {% endif %}
+        </table>
+        <hr style="margin:20px 0; border: none; border-top: 1px solid #ffb400;" />
+      </div>
+    {% endfor %}
+
+    <h3>Recently Viewed Items</h3>
+    <div class="recent-items">
+      {% if recently_viewed %}
+        {% for product in recently_viewed %}
+          <div class="recent-item-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+            <h4>{{ product.name }}</h4>
+            <p>Rs. {{ product.price }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No recently viewed items.</p>
+      {% endif %}
+    </div>
+
+    <h3>Settings</h3>
+    <div class="settings">
+      <p>Change Password</p>
+      <a href="{% url 'userauths:logout' %}" class="btn">Log Out</a>
+    </div>
+
+    <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>ToolHub</h3>
+        <p>ToolHub is a modern online hardware store offering a wide range of quality tools and equipment for construction, renovation, and DIY needs.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul type="bullet">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Collection</a></li>
+          <li><a href="#">Cart</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>More Links</h3>
+        <ul type="bullet">
+          <li><a href="#">Checkout</a></li>
+          <li><a href="#">Product Details</a></li>
+          <li><a href="#">Profile</a></li>
+
+        </ul>
+      </div>
+
+    <div class="footer-column">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Partners</a></li>
+        </ul>
+        <div class="footer-social">
+          <img src="{% static 'hardware/image/facebooklogo.png' %}" alt="Facebook">
+          <img src="{% static 'hardware/image/googlelogo.png' %}" alt="Google">
+          <img src="{% static 'hardware/image/instalogo.png' %}" alt="Instagram">
+          <img src="{% static 'hardware/image/twitterlogo.png' %}" alt="Twitter">
+        </div>
+        <a href="#" class="footer-btn">Contact Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2019-2020 All Rights Reserved.
+    </div>
+  </footer>
+  </body>
 </html>

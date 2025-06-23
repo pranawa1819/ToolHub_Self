@@ -4,11 +4,9 @@
   <head>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Search Page</title>
+    <title>About Us - ToolHub</title>
   </head>
   <style>
     * {
@@ -18,11 +16,9 @@
       font-family: 'Poppins', sans-serif;
     }
     body {
-      font-family: 'Poppins';
       background: linear-gradient(to right, #fff9e6, #ffffff);
       color: #333;
     }
-    /* Navigation */
     nav {
       background: #fff;
       border-bottom: 2px solid #eee;
@@ -31,12 +27,10 @@
       padding: 15px 20px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     }
-    
     .nav-center {
       display: flex;
       gap: 30px;
     }
-    
     .nav-center a {
       color: #333;
       font-weight: 600;
@@ -45,7 +39,6 @@
       position: relative;
       transition: color 0.3s ease;
     }
-    
     .nav-center a::after {
       content: '';
       position: absolute;
@@ -56,16 +49,12 @@
       background-color: #ffcc00;
       transition: width 0.3s ease-in-out;
     }
-    
     .nav-center a:hover {
       color: #ff9900;
     }
-    
     .nav-center a:hover::after {
       width: 100%;
     }
-    
-    /* Logo */
     .logocontainer {
       display: flex;
       align-items: center;
@@ -87,126 +76,91 @@
       font-weight: bold;
       margin-top: -1%;
     }
-    h2 {
-      font-size: 1.8rem;
-      color: #222;
-      margin-bottom: 15px;
-      border-left: 4px solid #f5cd6d;
-      padding-left: 10px;
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
     }
-    
-  .product-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4:4 grid */
-  gap: 20px;
-  padding: 20px;
-  justify-items: center;
-}
-
-.product-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  position: relative;
-  transition: transform 0.3s ease;
-  text-align: center;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-.product-image {
-  width: 100%;
-  height: 160px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
-
-.badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.badge.new {
-  background: #ff4757;
-}
-
-.badge.hot {
-  background: #6c5ce7;
-}
-
-.product-name {
-  margin: 10px 0;
-  font-size: 1.1rem;
-  color: #333;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.price {
-  color: #e84118;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 5px 0;
-}
-
-.old-price {
-  text-decoration: line-through;
-  color: #0099ff;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.add-to-cart {
-  background: #ffcc00;
-  color: #fff;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 600;
-  margin-top: 8px;
-}
-
-.add-to-cart:hover {
-  background: #ff9900;
-}
-
-.addtocartname {
-  display: block;
-  font-family: 'Poppins';
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-}
-
-.recommended-products {
-  margin: 20px;
-  padding: 20px;
-  margin-top: 3%;
-}
-.search-container {
-  
-  margin: 20px;
-  padding: 20px;
-}
+    .retail-content {
+      flex: 1;
+      max-width: 50%;
+    }
+    .section-subtitle {
+      font-size: 40px;
+      color: #ff9900;
+      margin-bottom: 10px;
+      font-weight: 900;
+      font-family: 'Dancing Script';
+      font-size: 4.5rem;
+    }
+    .retail-text {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 3rem;
+      color: #ff9900;
+      margin-bottom: 10px;
+      font-weight: 900;
+      font-family: 'Dancing Script';
+    }
+    .retail-list {
+      list-style: none;
+      padding: 0;
+    }
+    .retail-item {
+      display: flex;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    .retail-item-content {
+      flex: 1;
+    }
+    .retail-item-title {
+      font-size: 24px;
+      color: #222;
+      margin-bottom: 5px;
+      font-weight: 800;
+     
+    }
+    .retail-item-text {
+      font-size: 16px;
+      color: #555;
+      font-weight: 400;
+      font-family: 'Poppins';
+    }
+    .retail-banner {
+      flex: 1;
+      max-width: 45%;
+      text-align: center;
+    }
+    .retail-banner img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .w-100 {
+      margin-left: 25%;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .retail-content,
+      .retail-banner {
+        max-width: 100%;
+      }
+    }
 
 
-/* Footer Styling */
+    /* Footer Styling */
 
 
   footer {
@@ -216,7 +170,7 @@
   }
 
   .footer-container {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -311,78 +265,71 @@
     margin-left: auto;
     margin-right: auto;
   }
-</style>
-<body>
+  </style>
+
+  <body>
     <nav>
       <div class="nav-center">
         <a href="/first">Home</a>
-        <a href="Services.html">About Us</a>
+        <a href="/aboutus">About Us</a>
         <a href="/collection">Collection</a>
         <a href="/cart">Your Cart</a>
-
-        <a href="Contact.html">Contact</a>
+        <a href="/contact">Contact</a>
         <a href="/profile">Profile</a>
       </div>
     </nav>
 
     <div class="logocontainer">
-      <img src="logo.png" alt="logoshere" id="logo" />
+      <img src="{% static 'images/logo.png' %}" alt="ToolHub Logo" id="logo" />
       <h1 id="firstheader">ToolHub</h1>
     </div>
-<div class ="search-container">
 
-  <h2 >Search Results</h2>
-{% if products %}
-     <div class="product-grid">
-      {% for product in products %}
-        <div class="product-card">
-          {% if product.label %}
-            <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
-          {% endif %}
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
-          <h3><a href="/productdetail/{{ product.pid }}" class="product-name">{{ product.name }}</a></h3>
+    <div class="container">
+      <div class="retail-content">
+        <p class="section-subtitle">Welcome to ToolHub</p>
+        <p class="retail-text">ToolHub is Nepal's leading online platform for premium hardware tools, designed to serve both DIY enthusiasts and professional builders. From power tools to hand tools, gardening essentials to industrial machinery  we offer everything that your next project demands.</p>
+        <h2 class="section-title">Why Shop at ToolHub?</h2>
+        <ul class="retail-list">
+          <li class="retail-item">
+            <div class="retail-item-content">
+              <h3 class="retail-item-title">Extensive Product Range</h3>
+              <p class="retail-item-text">Find everything from electrical equipment, plumbing essentials to heavy-duty tools — all under one roof, sourced from trusted brands.</p>
+            </div>
+          </li>
+          <li class="retail-item">
+            <div class="retail-item-content">
+              <h3 class="retail-item-title">Quality Assurance</h3>
+              <p class="retail-item-text">We only partner with brands that meet strict quality standards, ensuring you receive tools that are reliable, safe, and durable.</p>
+            </div>
+          </li>
+          <li class="retail-item">
+            <div class="retail-item-content">
+              <h3 class="retail-item-title">Affordable Prices</h3>
+              <p class="retail-item-text">Competitive pricing on all items with seasonal discounts and bundle offers to make your shopping experience even more rewarding.</p>
+            </div>
+          </li>
+          <li class="retail-item">
+            <div class="retail-item-content">
+              <h3 class="retail-item-title">Nationwide Delivery</h3>
+              <p class="retail-item-text">Whether you are in Kathmandu, Pokhara, or any other region in Nepal we ensure fast and safe delivery to your doorstep.</p>
+            </div>
+          </li>
+          <li class="retail-item">
+            <div class="retail-item-content">
+              <h3 class="retail-item-title">Customer Support</h3>
+              <p class="retail-item-text">Our expert team is always available to assist with product selection, order status, or any post-purchase queries.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-          <p class="price">Rs {{ product.price }}</p>
-          {% if product.old_price %}
-            <p class="old-price">Rs {{ product.old_price }}</p>
-          {% endif %}
-          
-          <button class="add-to-cart"><a href="/add_to_cart/{{product.pid}}" class = "addtocartname">Add to Cart</a></button>
-        </div>
-      {% endfor %}
-{% else %}
-  <p>No products found.</p>
-{% endif %}
-</div>
-
-
-<div class ="recommended-products">
-<h2>Recommended Products</h2>
-{% if recommended_products %}
-  <div class="product-grid">
-    {% for product in recommended_products %}
-       <div class="product-card">
-          {% if product.label %}
-            <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
-          {% endif %}
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
-          <h3><a href="/productdetail/{{ product.pid }}" class="product-name">{{ product.name }}</a></h3>
-
-          <p class="price">Rs {{ product.price }}</p>
-          {% if product.old_price %}
-            <p class="old-price">Rs {{ product.old_price }}</p>
-          {% endif %}
-          
-          <button class="add-to-cart"><a href="/add_to_cart/{{product.pid}}" class = "addtocartname">Add to Cart</a></button>
-        </div>
-      {% endfor %}
-{% else %}
-  <p>No recommendations available.</p>
-{% endif %}
-</div>
+      <figure class="retail-banner">
+        <img src="{% static 'hardware/images/about-us-tools.jpg' %}" alt="About ToolHub" class="w-100" />
+      </figure>
+    </div>
 
 
-<footer>
+    <footer>
     <div class="footer-container">
       <div class="footer-column">
         <h3>ToolHub</h3>
@@ -431,5 +378,5 @@
       &copy; 2019-2020 All Rights Reserved.
     </div>
   </footer>
-</body>
+  </body>
 </html>

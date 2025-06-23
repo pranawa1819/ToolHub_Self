@@ -4,12 +4,82 @@
     <meta charset="UTF-8">
     <title>Order Confirmation</title>
     <style>
-      body {
-        font-family: 'Poppins', sans-serif;
-        text-align: center;
-        padding: 50px;
-        background: #fff9e6;
-      }
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      font-family: 'Poppins';
+      background: linear-gradient(to right, #fff9e6, #ffffff);
+      color: #333;
+    }
+    /* Navigation */
+    nav {
+      background: #fff;
+      border-bottom: 2px solid #eee;
+      display: flex;
+      justify-content: center;
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-center {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-center a {
+      color: #333;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-center a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #ffcc00;
+      transition: width 0.3s ease-in-out;
+    }
+    
+    .nav-center a:hover {
+      color: #ff9900;
+    }
+    
+    .nav-center a:hover::after {
+      width: 100%;
+    }
+    
+    /* Logo */
+    .logocontainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      margin-top: -2%;
+      margin-left: -60%;
+    }
+    
+    #logo {
+      height: 60px;
+      margin-right: 10px;
+    }
+    
+    #firstheader {
+      font-family: 'Dancing Script', cursive;
+      font-size: 36px;
+      color: #ff9900;
+      font-weight: bold;
+      margin-top: -1%;
+    }
      .message {
         background: #fff;
         display: inline-block;
@@ -50,6 +120,22 @@
     </style>
 </head>
 <body>
+        <div class="nav-center">
+        <a href="/first">Home</a>
+        <a href="Services.html">About Us</a>
+        <a href="/collection">Collection</a>
+        <a href="/cart">Your Cart</a>
+        <a href="Contact.html">Contact</a>
+        <a href="/profile">Profile</a>
+      </div>
+    </nav>
+
+    <div class="logocontainer">
+      <img src="logo.png" alt="logoshere" id="logo" />
+      <h1 id="firstheader">ToolHub</h1>
+    </div>
+
+    
     <div class="message">
  <h3>Customer Details:</h3>
 <p><strong>Name:</strong> {{ order.full_name }}</p>

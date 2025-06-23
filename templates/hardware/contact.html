@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Search Page</title>
+    <title>Contact Us</title>
   </head>
   <style>
     * {
@@ -87,126 +87,108 @@
       font-weight: bold;
       margin-top: -1%;
     }
-    h2 {
-      font-size: 1.8rem;
-      color: #222;
-      margin-bottom: 15px;
-      border-left: 4px solid #f5cd6d;
-      padding-left: 10px;
+    
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
     }
     
-  .product-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4:4 grid */
-  gap: 20px;
-  padding: 20px;
-  justify-items: center;
-}
+    .contact-form {
+      flex: 1;
+      padding: 20px;
+    }
+    
+    .contact-form h2 {
+      color: #ff9900;
+      margin-bottom: 10px;
+    }
+    
+    .contact-form p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #ff9900;
+      outline: none;
+    }
+    .contact-form button {
+      background: #ffcc00;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .contact-form button:hover {
+      background: #ff9900;
+    }
+    
+    .contact-info {
+      flex: 1;
+      padding: 20px;
+      border-left: 1px solid #eee;
+      margin-left: 7%;
+    }
+    
+    .contact-info h3 {
+      font-size: 1.9rem;
+      margin-bottom: 15px;
+      color: #ff9900;
+      font-weight: 900;
+    }
+    
+    .contact-info p {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    
+    .contact-info img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    
+    .alert p {
+      margin-top: 10px;
+      background-color: #e6f7e6;
+      color: #007f00;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .contact-container {
+        flex-direction: column;
+      }
+    
+      .contact-info {
+        border-left: none;
+        border-top: 1px solid #eee;
+      }
+    }
 
-.product-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  position: relative;
-  transition: transform 0.3s ease;
-  text-align: center;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-.product-image {
-  width: 100%;
-  height: 160px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
-
-.badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.badge.new {
-  background: #ff4757;
-}
-
-.badge.hot {
-  background: #6c5ce7;
-}
-
-.product-name {
-  margin: 10px 0;
-  font-size: 1.1rem;
-  color: #333;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.price {
-  color: #e84118;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 5px 0;
-}
-
-.old-price {
-  text-decoration: line-through;
-  color: #0099ff;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.add-to-cart {
-  background: #ffcc00;
-  color: #fff;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 600;
-  margin-top: 8px;
-}
-
-.add-to-cart:hover {
-  background: #ff9900;
-}
-
-.addtocartname {
-  display: block;
-  font-family: 'Poppins';
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-}
-
-.recommended-products {
-  margin: 20px;
-  padding: 20px;
-  margin-top: 3%;
-}
-.search-container {
-  
-  margin: 20px;
-  padding: 20px;
-}
-
-
-/* Footer Styling */
+  /* Footer Styling */
 
 
   footer {
@@ -216,7 +198,7 @@
   }
 
   .footer-container {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -311,16 +293,17 @@
     margin-left: auto;
     margin-right: auto;
   }
-</style>
-<body>
+  </style>
+
+  <body>
     <nav>
       <div class="nav-center">
         <a href="/first">Home</a>
-        <a href="Services.html">About Us</a>
+        <a href="/aboutus">About Us</a>
         <a href="/collection">Collection</a>
         <a href="/cart">Your Cart</a>
 
-        <a href="Contact.html">Contact</a>
+        <a href="/contact">Contact</a>
         <a href="/profile">Profile</a>
       </div>
     </nav>
@@ -329,60 +312,49 @@
       <img src="logo.png" alt="logoshere" id="logo" />
       <h1 id="firstheader">ToolHub</h1>
     </div>
-<div class ="search-container">
 
-  <h2 >Search Results</h2>
-{% if products %}
-     <div class="product-grid">
-      {% for product in products %}
-        <div class="product-card">
-          {% if product.label %}
-            <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
+    <div class="contact-container">
+      <div class="contact-form">
+        <h2>Contact Us</h2>
+        <p>Have any questions or feedback? We'd love to hear from you.</p>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <input type="text" name="subject" placeholder="Subject" required />
+          <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+          {% if messages %}
+            <div class="alert">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
           {% endif %}
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
-          <h3><a href="/productdetail/{{ product.pid }}" class="product-name">{{ product.name }}</a></h3>
+        </form>
+      </div>
 
-          <p class="price">Rs {{ product.price }}</p>
-          {% if product.old_price %}
-            <p class="old-price">Rs {{ product.old_price }}</p>
-          {% endif %}
-          
-          <button class="add-to-cart"><a href="/add_to_cart/{{product.pid}}" class = "addtocartname">Add to Cart</a></button>
-        </div>
-      {% endfor %}
-{% else %}
-  <p>No products found.</p>
-{% endif %}
-</div>
+      <div class="contact-info">
+        <h3>Reach Us</h3>
+        <p>
+          <strong>Email:</strong> toolhubofficial@example.com
+        </p>
+        <p>
+          <strong>Phone:</strong> +977-9800000000
+        </p>
+        <p>
+          <strong>Location:</strong> Kathmandu, Nepal
+        </p>
+        <img src="{% static 'hardware/image/contact-image.png' %}" alt="Contact" />
+      </div>
+    </div>
 
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.4967252896573!2d85.3386057!3d27.7455263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1a7846ae157d%3A0x8f07c7f2a5d7b54c!2s27%C2%B044&#39;45.0%22N%2085%C2%B020&#39;22.6%22E!5e0!3m2!1sen!2snp!4v1700035627268!5m2!1sen!2snp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    
 
-<div class ="recommended-products">
-<h2>Recommended Products</h2>
-{% if recommended_products %}
-  <div class="product-grid">
-    {% for product in recommended_products %}
-       <div class="product-card">
-          {% if product.label %}
-            <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
-          {% endif %}
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
-          <h3><a href="/productdetail/{{ product.pid }}" class="product-name">{{ product.name }}</a></h3>
-
-          <p class="price">Rs {{ product.price }}</p>
-          {% if product.old_price %}
-            <p class="old-price">Rs {{ product.old_price }}</p>
-          {% endif %}
-          
-          <button class="add-to-cart"><a href="/add_to_cart/{{product.pid}}" class = "addtocartname">Add to Cart</a></button>
-        </div>
-      {% endfor %}
-{% else %}
-  <p>No recommendations available.</p>
-{% endif %}
-</div>
-
-
-<footer>
+     <footer>
     <div class="footer-container">
       <div class="footer-column">
         <h3>ToolHub</h3>
@@ -431,5 +403,5 @@
       &copy; 2019-2020 All Rights Reserved.
     </div>
   </footer>
-</body>
+  </body>
 </html>
