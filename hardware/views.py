@@ -7,8 +7,9 @@ import uuid
 from decimal import Decimal
 from django.contrib import messages
 from django.core.mail import send_mail
+from .utils import track_product_view
 
-# Create your views here.
+# view for index page.
 def index(request):
     #return HttpResponse("welcome to my shop")
     featured_products = Product.objects.filter(featured=True)
@@ -17,18 +18,26 @@ def index(request):
        }
     return render(request, 'hardware/index.html',context)
 
+#view for landing page
 def landingpage(request):
     return render(request, 'hardware/landingpage.html')
 
+#view for signup page
 def signuppage(request):
     return render(request, 'userauths/sign-up.html')
 
+
+#view for login page 
 def loginpage(request):
     return render(request, 'userauths/login.html')
 
+
+#view for aboutus page
 def aboutpage(request):
     return render(request, 'hardware/aboutus.html')
 
+
+#view for contact page
 def contactpage(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -48,19 +57,24 @@ def contactpage(request):
         messages.success(request, "Message sent successfully!")
     return render(request, 'hardware/contact.html')
 
+
+
+#view for profile page
 def profilepage(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     user = request.user
     orders = cartOrder.objects.filter(user=user).order_by('-order_date')
-
+    
     for order in orders:
-        order.items = cartOrderItem.objects.filter(order=order)  # correct usage
-
+        order.items = cartOrderItem.objects.filter(order=order)
+    
+    # Get 4 most recently viewed products
     recently_viewed = Product.objects.filter(
-        pid__in=ProductView.objects.filter(user=user)
-                                   .order_by('-viewed_at')
-                                   .values_list('product__pid', flat=True)[:4]
-    )
-
+        productview__user=user
+    ).order_by('-productview__viewed_at').distinct()[:4]
+    
     context = {
         'user': user,
         'orders': orders,
@@ -70,7 +84,7 @@ def profilepage(request):
 
 
 
-
+#view for collection page
 def collectionpage(request):
     
     categories = Category.objects.all()
@@ -80,6 +94,9 @@ def collectionpage(request):
     
     return render(request, 'hardware/collection.html',context)
 
+
+
+#view for product category pages
 def powertools(request):
     products = Product.objects.filter(category__name='Power Tools')
     context = {
@@ -141,10 +158,13 @@ def agricultureTools(request):
     return render(request, 'hardware/agriculturaltool.html', context)
 
 
+
+
+#view for product details page
 def productDetailpage(request, pid):
     product = Product.objects.get(pid=pid)  # get() returns a single product
     reviews = Product_Review.objects.filter(product=product)
-    
+    track_product_view(request.user, product)
 
     if request.method == "POST":
         review = request.POST.get('review')
@@ -170,7 +190,7 @@ def productDetailpage(request, pid):
     return render(request, 'hardware/productdetails.html', context)
 
 
-
+#view for add to cart page
 def add_to_cart(request, pid):
     product = Product.objects.get( pid=pid)
 
@@ -209,6 +229,8 @@ def add_to_cart(request, pid):
     return redirect('hardware:cart')  # cart page url name
 
 
+
+#view for cart view 
 def cart_view(request):
     cart_items = cartOrderItem.objects.filter(user=request.user, product_status='processing')
 
@@ -225,7 +247,7 @@ def cart_view(request):
     return render(request, 'hardware/cart.html', context )
 
 
-
+#view for remove item from cart
 def remove_from_cart(request, pid):
     cart_item = cartOrderItem.objects.get(id=pid, user=request.user)
 
@@ -234,6 +256,7 @@ def remove_from_cart(request, pid):
     
     if cart_order.paid_status == True and cart_order.order_status == 'Completed':
         cart_item.delete()  # Delete the item
+        
     # Recalculate order price
     remaining_items = cartOrderItem.objects.filter(order=cart_order)
     cart_order.price = sum(item.total for item in remaining_items)
@@ -246,7 +269,7 @@ def remove_from_cart(request, pid):
 
 
 
-
+#view for checkout page
 def checkoutpage(request):
     user = request.user
     cart_order = cartOrder.objects.filter(user=user, paid_status=False, order_status='processing').first()
@@ -267,7 +290,7 @@ def checkoutpage(request):
     delivery_charge = Decimal('100.00')  # default
     total_amount = subtotal + vat + delivery_charge
 
-    # Rest same
+
     last_order = Order.objects.filter(user=user).last()
     initial_data = {}
     if last_order:
@@ -326,6 +349,8 @@ def checkoutpage(request):
         'grand_total': total_amount
     })
 
+
+#view for order confirmation page
 def order_confirmation(request, id):
     order = get_object_or_404(Order, id=id, user=request.user)
 
@@ -354,6 +379,7 @@ def order_confirmation(request, id):
     })
 
 
+
 def cancel_order(request, id):
     cart_order = get_object_or_404(cartOrder, user=request.user, id=id)
 
@@ -374,7 +400,7 @@ def cancel_order(request, id):
 
 
 
-
+#view for search
 def searchs(request):
     query = request.GET.get('query', '')
     category_name = request.GET.get('category')

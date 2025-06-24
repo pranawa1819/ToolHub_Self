@@ -223,64 +223,118 @@
         font-weight: 600;
       }
       
+      /* Main container styling */
       .recent-items {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        display: flex;
         gap: 20px;
-        background: #fff;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        margin-top: 20px;
-        transition: transform 0.3s ease;
-      }
-      
-      .recent-items:hover {
-        transform: translateY(-3px);
-      }
-      
-      .recent-items p {
-        grid-column: 1 / -1;
-        text-align: center;
-        color: #888;
-        font-size: 16px;
+        overflow-x: auto;
         padding: 10px 0;
+        margin-bottom: 30px;
+        margin-left: 26%;       
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
       }
       
+      .recent-items::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome/Safari */
+      }
+      
+      /* Individual product card styling */
       .recent-item-card {
-        background: linear-gradient(to top, #fff9e6, #ffffff);
-        border: 1px solid #eee;
-        border-radius: 10px;
+        position: relative;
+        min-width: 150px;
+        max-width: 200px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         padding: 10px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: white;
+        transition: all 0.3s ease;
+        flex-shrink: 0; /* Prevent cards from shrinking */
       }
       
+      /* Improved hover effect */
       .recent-item-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1;
       }
       
+      /* Product image styling */
       .recent-item-card img {
         width: 100%;
         height: 120px;
-        object-fit: cover;
-        border-radius: 8px;
+        object-fit: contain;
+        border-radius: 5px;
         margin-bottom: 10px;
+        transition: transform 0.3s ease;
       }
       
+      .recent-item-card:hover img {
+        transform: scale(0.95);
+      }
+      
+      /* Product name styling */
       .recent-item-card h4 {
-        font-size: 16px;
+        font-size: 0.9rem;
+        font-weight: 700;
         color: #333;
         margin: 5px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       
+      /* Price styling */
       .recent-item-card p {
-        font-size: 14px;
-        color: #777;
+        font-size: 16px;
+        font-weight: 700;
+        color: #000;
+        margin: 5px 0 10px;
       }
       
+      /* "HOT" badge styling */
+      .recent-item-card .hot-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff4444;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 2;
+      }
+      
+      /* Section heading styling */
+      .recent-items + h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333;
+      }
+      
+      /* Add to Cart button styling */
+      .recent-item-card .add-to-cart {
+        background: #ffcc00;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+      
+      .recent-item-card .add-to-cart:hover {
+        background: #ff9900;
+        color: white;
+      }
+      
+      /* Active state - only during click */
+      .recent-item-card:active {
+        transform: scale(0.98);
+      }
       /* Responsive tweaks */
       @media (max-width: 600px) {
         .nav-center {
@@ -311,113 +365,111 @@
           padding: 10px 20px;
         }
       }
-
-
+      
       /* Footer Styling */
-
-
-  footer {
-    background-color: #000;
-    padding: 40px 20px;
-    margin-top: 10%;
-  }
-
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .footer-column {
-    flex: 1 1 200px;
-    margin: 10px;
-  }
-
-  .footer-column h3 {
-    margin-bottom: 20px;
-    font-size: 18px;
-    color: #fff;
-  }
-
-  .footer-column p {
-    margin-bottom: 20px;
-    font-size: 14px;
-    color: #ccc;
-    line-height: 1.6;
-  }
-
-  .footer-column ul {
-    list-style: none;
-  }
-
-  .footer-column ul li {
-    margin-bottom: 10px;
-  }
-
-  .footer-column ul li a {
-    text-decoration: none;
-    color: #ccc;
-    font-size: 14px;
-    transition: color 0.3s;
-  }
-
-  .footer-column ul li a:hover {
-    color: #fff;
-  }
-
-  .footer-social {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  .footer-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #ffcc00;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 20px;
-    transition: background 0.3s;
-    margin-top: 10%;
-    margin-left: 20%;
-  }
-
-  .footer-btn:hover {
-    background: #ff9900;
-  }
-
-  .footer-bottom {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #666;
-  }
-
-  .footer-social img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: inline-block;
-    margin: 0 10px;
-    border: 2px solid #fff;
-    overflow: hidden;
-  }
-
-  .map-container {
-    width: 80%;
-    height: 60vh;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 10%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+      
+      footer {
+        background-color: #000;
+        padding: 40px 20px;
+        margin-top: 10%;
+      }
+      
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      
+      .footer-column {
+        flex: 1 1 200px;
+        margin: 10px;
+      }
+      
+      .footer-column h4 {
+        margin-bottom: 20px;
+        font-size: 18px;
+        color: #fff;
+      }
+      
+      .footer-column p {
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #ccc;
+        line-height: 1.6;
+      }
+      
+      .footer-column ul {
+        list-style: none;
+      }
+      
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+      
+      .footer-column ul li a {
+        text-decoration: none;
+        color: #ccc;
+        font-size: 14px;
+        transition: color 0.3s;
+      }
+      
+      .footer-column ul li a:hover {
+        color: #fff;
+      }
+      
+      .footer-social {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      
+      .footer-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #ffcc00;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 20px;
+        transition: background 0.3s;
+        margin-top: 10%;
+        margin-left: 20%;
+      }
+      
+      .footer-btn:hover {
+        background: #ff9900;
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+      }
+      
+      .footer-social img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: inline-block;
+        margin: 0 10px;
+        border: 2px solid #fff;
+        overflow: hidden;
+      }
+      
+      .map-container {
+        width: 80%;
+        height: 60vh;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 10%;
+        margin-left: auto;
+        margin-right: auto;
+      }
     </style>
   </head>
   <body>
@@ -438,7 +490,7 @@
     </div>
 
     <div class="profile-header">
-      <img src="{% static 'media/avatar/profile.jpg' %}" alt="Profile Picture" class="avatar" />
+      <img src="{% static 'hardware/image/profile.png' %}" alt="Profile Picture" class="avatar" />
       <h2>{{ user.username }}</h2>
       <p>{{ user.email }}</p>
     </div>
@@ -476,6 +528,13 @@
             </td>
             <td>Rs. {{ order.price }}</td>
           </tr>
+
+          <tr>
+            <td>
+              <strong>Product Name:</strong>
+            </td>
+            <td>{{ order.item }}</td>
+          </tr>
         </table>
 
         <br /><br />
@@ -505,15 +564,20 @@
         <hr style="margin:20px 0; border: none; border-top: 1px solid #ffb400;" />
       </div>
     {% endfor %}
-
     <h3>Recently Viewed Items</h3>
+
     <div class="recent-items">
       {% if recently_viewed %}
         {% for product in recently_viewed %}
           <div class="recent-item-card">
+            {% if product.is_hot %}
+              <!-- Add this condition if you have a hot product flag -->
+              <span class="hot-badge">HOT</span>
+            {% endif %}
             <img src="{{ product.image.url }}" alt="{{ product.name }}" />
             <h4>{{ product.name }}</h4>
             <p>Rs. {{ product.price }}</p>
+            <button class="add-to-cart">Add to Cart</button>
           </div>
         {% endfor %}
       {% else %}
@@ -528,53 +592,71 @@
     </div>
 
     <footer>
-    <div class="footer-container">
-      <div class="footer-column">
-        <h3>ToolHub</h3>
-        <p>ToolHub is a modern online hardware store offering a wide range of quality tools and equipment for construction, renovation, and DIY needs.
-        </p>
-      </div>
-
-      <div class="footer-column">
-        <h3>Quick Links</h3>
-        <ul type="bullet">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Collection</a></li>
-          <li><a href="#">Cart</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>More Links</h3>
-        <ul type="bullet">
-          <li><a href="#">Checkout</a></li>
-          <li><a href="#">Product Details</a></li>
-          <li><a href="#">Profile</a></li>
-
-        </ul>
-      </div>
-
-    <div class="footer-column">
-        <h3>Legal</h3>
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms & Conditions</a></li>
-          <li><a href="#">Partners</a></li>
-        </ul>
-        <div class="footer-social">
-          <img src="{% static 'hardware/image/facebooklogo.png' %}" alt="Facebook">
-          <img src="{% static 'hardware/image/googlelogo.png' %}" alt="Google">
-          <img src="{% static 'hardware/image/instalogo.png' %}" alt="Instagram">
-          <img src="{% static 'hardware/image/twitterlogo.png' %}" alt="Twitter">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h4>ToolHub</h4>
+          <p>ToolHub is a modern online hardware store offering a wide range of quality tools and equipment for construction, renovation, and DIY needs.</p>
         </div>
-        <a href="#" class="footer-btn">Contact Us</a>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul type="bullet">
+            <li>
+              <a href="#">Home</a>
+            </li>
+            <li>
+              <a href="#">About Us</a>
+            </li>
+            <li>
+              <a href="#">Collection</a>
+            </li>
+            <li>
+              <a href="#">Cart</a>
+            </li>
+            <li>
+              <a href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>More Links</h4>
+          <ul type="bullet">
+            <li>
+              <a href="#">Checkout</a>
+            </li>
+            <li>
+              <a href="#">Product Details</a>
+            </li>
+            <li>
+              <a href="#">Profile</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <ul>
+            <li>
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#">Terms & Conditions</a>
+            </li>
+            <li>
+              <a href="#">Partners</a>
+            </li>
+          </ul>
+          <div class="footer-social">
+            <img src="{% static 'hardware/image/facebooklogo.png' %}" alt="Facebook" />
+            <img src="{% static 'hardware/image/googlelogo.png' %}" alt="Google" />
+            <img src="{% static 'hardware/image/instalogo.png' %}" alt="Instagram" />
+            <img src="{% static 'hardware/image/twitterlogo.png' %}" alt="Twitter" />
+          </div>
+          <a href="#" class="footer-btn">Contact Us</a>
+        </div>
       </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; 2019-2020 All Rights Reserved.
-    </div>
-  </footer>
+      <div class="footer-bottom">&copy; 2019-2020 All Rights Reserved.</div>
+    </footer>
   </body>
 </html>

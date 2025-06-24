@@ -1,6 +1,8 @@
 from django import forms
 from hardware.models import Product_Review, Order
 from django.contrib.auth.models import User
+
+
 class ReviewForm(forms.ModelForm):
     review =  forms.CharField(widget=forms.Textarea(attrs={'placeholder':"write review"}))
     class Meta:

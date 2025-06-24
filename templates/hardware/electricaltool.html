@@ -18,9 +18,8 @@
     }
     body {
       font-family: 'Poppins';
-      background:  linear-gradient(to right, #fff9e6, #ffffff);
+      background: linear-gradient(to right, #fff9e6, #ffffff);
       color: #333;
-      
     }
     /* Navigation */
     nav {
@@ -167,7 +166,7 @@
     
     .add-to-cart {
       margin-top: 10px;
-      background:#ffcc00;
+      background: #ffcc00;
       color: #fff;
       border: none;
       padding: 8px 15px;
@@ -181,17 +180,15 @@
     .add-to-cart:hover {
       background: #ff9900;
     }
-
-    .addtocartname{
+    
+    .addtocartname {
       display: block;
       font-family: 'Poppins';
       font-size: 1.1rem;
       font-weight: 600;
       color: white;
       text-decoration: none;
-      
     }
-    
   </style>
 
   <body>
@@ -226,7 +223,7 @@
           {% if product.old_price %}
             <p class="old-price">Rs {{ product.old_price }}</p>
           {% endif %}
-          <button class="add-to-cart"><a href="/add_to_cart/{{product.pid}}" class="addtocartname">Add to Cart</a></button>
+          <button class="add-to-cart"><a href="/add_to_cart/{{ product.pid }}" class="addtocartname">Add to Cart</a></button>
         </div>
       {% endfor %}
     </div>

@@ -44,7 +44,7 @@ LABEL_CHOICES = (
     ('New', 'New'),
     ('', 'None'),
 )
-# Create your models here.
+
 
 class Category(models.Model):
     cid = ShortUUIDField(unique=True, length = 10, max_length=20, prefix="cat", alphabet="abcdefgh12345") 
@@ -199,6 +199,8 @@ class Order(models.Model):
     def __str__(self):
         return f"{self.full_name} - {self.payment_method}"
     
+    
+    
 class OrderItem(models.Model):
     
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -215,5 +217,9 @@ class OrderItem(models.Model):
 class ProductView(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    product_image = models.ImageField(upload_to='recently_viewed/')
+    product_image = models.ImageField(upload_to='recently_viewed/',null=True, blank=True)
     viewed_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        ordering = ['-viewed_at']
+        unique_together = ['user', 'product'] 
