@@ -180,6 +180,30 @@
       text-decoration: none;
       
     }
+
+        /* Alert Message */
+    .custom-alert {
+      padding: 15px 20px;
+      margin: 15px auto;
+      border-radius: 8px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 30%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .custom-alert.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .custom-alert.warning {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
   </style>
 
   <body>
@@ -199,7 +223,18 @@
       <img src="logo.png" alt="logoshere" id="logo" />
       <h1 id="firstheader">ToolHub</h1>
     </div>
-
+         {% if messages %}
+      {% for message in messages %}
+        <div class="custom-alert {{ message.tags }}">
+          <strong>{{ message }}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+    <script>
+      setTimeout(() => {
+        $('.custom-alert').fadeOut('slow')
+      }, 3000)
+    </script>
     <div class="cart-container">
       <h2>Your Cart</h2>
 

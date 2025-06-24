@@ -21,7 +21,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(('hardware.first', 'hardware'), namespace='hardware')),  # Home page
+    path('', include(('hardware.first', 'hardware'), namespace='hardware')),  # hardware app URLs 
     path("user/", include("userauths.urls")),  # User authentication URLs
 ]
 if settings.DEBUG: #if this condition is true in settings.py, then it will serve static and media files

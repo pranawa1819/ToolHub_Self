@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Profile Page</title>
+
+    <style>
+      /* Reset & base */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+      body {
+        font-family: 'Poppins';
+        background: linear-gradient(to right, #fff9e6, #ffffff);
+        color: #333;
+      }
+      /* Navigation */
+      nav {
+        background: #fff;
+        border-bottom: 2px solid #eee;
+        display: flex;
+        justify-content: center;
+        padding: 15px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      }
+      
+      .nav-center {
+        display: flex;
+        gap: 30px;
+      }
+      
+      .nav-center a {
+        color: #333;
+        font-weight: 600;
+        font-size: 18px;
+        text-decoration: none;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-center a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background-color: #ffcc00;
+        transition: width 0.3s ease-in-out;
+      }
+      
+      .nav-center a:hover {
+        color: #ff9900;
+      }
+      
+      .nav-center a:hover::after {
+        width: 100%;
+      }
+      
+      /* Logo */
+      .logocontainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+        margin-top: -2%;
+        margin-left: -60%;
+      }
+      
+      #logo {
+        height: 60px;
+        margin-right: 10px;
+      }
+      
+      #firstheader {
+        font-family: 'Dancing Script', cursive;
+        font-size: 36px;
+        color: #ff9900;
+        font-weight: bold;
+        margin-top: -1%;
+      }
+      
+      /* Footer Styling */
+      
+      footer {
+        background-color: #000;
+        padding: 40px 20px;
+        margin-top: 10%;
+      }
+      
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      
+      .footer-column {
+        flex: 1 1 200px;
+        margin: 10px;
+      }
+      
+      .footer-column h4 {
+        margin-bottom: 20px;
+        font-size: 18px;
+        color: #fff;
+      }
+      
+      .footer-column p {
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #ccc;
+        line-height: 1.6;
+      }
+      
+      .footer-column ul {
+        list-style: none;
+      }
+      
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+      
+      .footer-column ul li a {
+        text-decoration: none;
+        color: #ccc;
+        font-size: 14px;
+        transition: color 0.3s;
+      }
+      
+      .footer-column ul li a:hover {
+        color: #fff;
+      }
+      
+      .footer-social {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      
+      .footer-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #ffcc00;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 20px;
+        transition: background 0.3s;
+        margin-top: 10%;
+        margin-left: 20%;
+      }
+      
+      .footer-btn:hover {
+        background: #ff9900;
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+      }
+      
+      .footer-social img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: inline-block;
+        margin: 0 10px;
+        border: 2px solid #fff;
+        overflow: hidden;
+      }
+      
+      .map-container {
+        width: 80%;
+        height: 60vh;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 10%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-center">
+        <a href="/first">Home</a>
+        <a href="/aboutus">About Us</a>
+        <a href="/collection">Collection</a>
+        <a href="/cart">Your Cart</a>
+        <a href="/contact">Contact</a>
+        <a href="/profile">Profile</a>
+      </div>
+    </nav>
+
+    <div class="logocontainer">
+      <img src="logo.png" alt="logoshere" id="logo" />
+      <h1 id="firstheader">ToolHub</h1>
+    </div>
+
+    <!-- Add this section below the logo container and above the footer -->
+    <div class="profile-update-container" style="max-width: 800px; margin: 40px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      <h2 style="text-align: center; margin-bottom: 30px; color: #ff9900;">Update Your Profile</h2>
+
+      <form method="POST" enctype="multipart/form-data" action="{% url 'hardware:update_profile' %}">
+        {% csrf_token %}
+
+        <div style="display: flex; gap: 30px; margin-bottom: 30px;">
+          <!-- Profile Image Section -->
+          <div style="flex: 1;">
+            <div style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 3px solid #ffcc00;">
+              {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" alt="Profile Image" style="width: 100%; height: 100%; object-fit: cover;" />
+              {% else %}
+                <div style="width: 100%; height: 100%; background: #eee; display: flex; align-items: center; justify-content: center;">
+                  <span style="color: #999;">No Image</span>
+                </div>
+              {% endif %}
+            </div>
+            <input type="file" name="avatar" accept="image/*" id="avatar-upload" style="display: none;" />
+            <label for="avatar-upload" style="display: block; text-align: center; padding: 8px 15px; background: #ffcc00; color: white; border-radius: 5px; cursor: pointer; transition: background 0.3s;">Change Profile Image</label>
+          </div>
+
+          <!-- User Info Section -->
+          <div style="flex: 2;">
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; margin-bottom: 5px; font-weight: 600;">Username</label>
+              <input type="text" name="username" value="{{ user.username }}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; margin-bottom: 5px; font-weight: 600;">Email</label>
+              <input type="email" name="email" value="{{ user.email }}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; margin-bottom: 5px; font-weight: 600;">New Password (leave blank to keep current)</label>
+              <input type="password" name="new_password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; margin-bottom: 5px; font-weight: 600;">Confirm New Password</label>
+              <input type="password" name="confirm_password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <button type="submit" style="padding: 12px 30px; background: #ff9900; color: white; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: background 0.3s;">Update Profile</button>
+        </div>
+      </form>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-column">
+          <h4>ToolHub</h4>
+          <p>ToolHub is a modern online hardware store offering a wide range of quality tools and equipment for construction, renovation, and DIY needs.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul type="bullet">
+            <li>
+              <a href="#">Home</a>
+            </li>
+            <li>
+              <a href="#">About Us</a>
+            </li>
+            <li>
+              <a href="#">Collection</a>
+            </li>
+            <li>
+              <a href="#">Cart</a>
+            </li>
+            <li>
+              <a href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>More Links</h4>
+          <ul type="bullet">
+            <li>
+              <a href="#">Checkout</a>
+            </li>
+            <li>
+              <a href="#">Product Details</a>
+            </li>
+            <li>
+              <a href="#">Profile</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <ul>
+            <li>
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#">Terms & Conditions</a>
+            </li>
+            <li>
+              <a href="#">Partners</a>
+            </li>
+          </ul>
+          <div class="footer-social">
+            <img src="{% static 'hardware/image/facebooklogo.png' %}" alt="Facebook" />
+            <img src="{% static 'hardware/image/googlelogo.png' %}" alt="Google" />
+            <img src="{% static 'hardware/image/instalogo.png' %}" alt="Instagram" />
+            <img src="{% static 'hardware/image/twitterlogo.png' %}" alt="Twitter" />
+          </div>
+          <a href="#" class="footer-btn">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">&copy; 2019-2020 All Rights Reserved.</div>
+    </footer>
+  </body>
+</html>

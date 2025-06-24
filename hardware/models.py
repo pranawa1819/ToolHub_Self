@@ -44,7 +44,16 @@ LABEL_CHOICES = (
     ('New', 'New'),
     ('', 'None'),
 )
+DELIVERY_CHOICES = (
+    ('Inside Valley', 'Inside Valley'),
+    ('Outside Valley', 'Outside Valley'),
+)
 
+PAYMENT_CHOICES = (
+    ('Cash on Delivery', 'Cash on Delivery'),
+    ('Esewa', 'Esewa'),
+    ('Khalti', 'Khalti'),
+)
 
 class Category(models.Model):
     cid = ShortUUIDField(unique=True, length = 10, max_length=20, prefix="cat", alphabet="abcdefgh12345") 
@@ -116,7 +125,7 @@ class cartOrder(models.Model):
     paid_status = models.BooleanField(default=False)
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(choices=STATUS_CHOICE, max_length=20, default="processing")
-    
+    item = models.CharField(max_length=200,null=True, blank=True)
     class Meta:
         verbose_name_plural = "Cart Orders"
   
@@ -171,16 +180,7 @@ class Wishlist(models.Model):
 
 
 class Order(models.Model):
-    DELIVERY_CHOICES = (
-        ('Inside Valley', 'Inside Valley'),
-        ('Outside Valley', 'Outside Valley'),
-    )
 
-    PAYMENT_CHOICES = (
-        ('Cash on Delivery', 'Cash on Delivery'),
-        ('Esewa', 'Esewa'),
-        ('Khalti', 'Khalti'),
-    )
     id =  ShortUUIDField(primary_key=True,unique=True, length = 10, max_length=20, prefix="ord", alphabet="abcdefgh12345")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=100)
@@ -194,6 +194,7 @@ class Order(models.Model):
     delivery_charge = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
+    order_status = models.CharField(choices=STATUS_CHOICE, max_length=20, default="processing")
     class Meta:
         verbose_name_plural = "Orders"
     def __str__(self):

@@ -8,6 +8,9 @@ from decimal import Decimal
 from django.contrib import messages
 from django.core.mail import send_mail
 from .utils import track_product_view
+from django.contrib.auth import update_session_auth_hash
+from django.conf import settings
+from django.views.static import serve
 
 # view for index page.
 def index(request):
@@ -65,7 +68,7 @@ def profilepage(request):
         return redirect('login')
     
     user = request.user
-    orders = cartOrder.objects.filter(user=user).order_by('-order_date')
+    orders = cartOrder.objects.filter(user=request.user).order_by('-order_date')
     
     for order in orders:
         order.items = cartOrderItem.objects.filter(order=order)
@@ -79,8 +82,47 @@ def profilepage(request):
         'user': user,
         'orders': orders,
         'recently_viewed': recently_viewed,
+        'MEDIA_URL': settings.MEDIA_URL
     }
     return render(request, 'hardware/profile.html', context)
+
+
+#view for update profile page
+def updateprofilepage(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    user = request.user
+    
+    if request.method == "POST":
+        # Update basic info
+        user.username = request.POST.get("username")
+        user.email = request.POST.get("email")
+        
+        # Handle profile image upload
+        if 'avatar' in request.FILES:
+            user.avatar = request.FILES['avatar']
+        
+        # Handle password change
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+        
+        if new_password and confirm_password:
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                update_session_auth_hash(request, user)  # Keep the user logged in
+                messages.success(request, "Password updated successfully!")
+            else:
+                messages.error(request, "Passwords don't match!")
+        
+        user.save()
+        messages.success(request, "Profile updated successfully!")
+        return redirect('hardware:profile')
+
+    context = {
+        'user': user,
+    }
+    return render(request, 'hardware/update.html', context)
 
 
 
@@ -360,7 +402,7 @@ def order_confirmation(request, id):
     if not paid_cart_orders.exists():
         #messages.error(request, "No completed cart order found!")
         return redirect('hardware:cart')
-
+    
     # Get all cart items related to those paid cartOrders
     cart_items = cartOrderItem.objects.filter(user=request.user, order__in=paid_cart_orders)
 

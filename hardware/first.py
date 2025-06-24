@@ -3,18 +3,20 @@ from hardware.views import index
 from hardware.views import landingpage
 
 
-from . import views
+from . import views 
 
 app_name = "hardware"
 
 urlpatterns = [
+   
     path("first/", index, name="index"),  # Home page
     
     path("", landingpage, name="landingpage"),  # Landing page
     
     path("sign-up/", views.signuppage, name="signuppage"),
     path("login/", views.loginpage, name="loginpage"),
-    path("profile/", views.profilepage, name="profilepage"),
+    path('profile/', views.profilepage, name='profile'),  # This defines hardware:profile
+    path('profile/update/', views.updateprofilepage, name='update_profile'),
     
     path("aboutus/",views.aboutpage, name="aboutpage"),
     

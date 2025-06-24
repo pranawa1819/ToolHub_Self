@@ -213,14 +213,13 @@
       /* Settings Section */
       .settings {
         max-width: 900px;
-        margin: 20px auto 40px;
-      
+        margin: 20px;
         padding: 25px 40px;
-      
-        display: flex;
+        
         align-items: center;
-        justify-content: space-between;
         font-weight: 600;
+        margin-left: auto;
+        margin-right: auto;
       }
       
       /* Main container styling */
@@ -230,7 +229,7 @@
         overflow-x: auto;
         padding: 10px 0;
         margin-bottom: 30px;
-        margin-left: 26%;       
+        margin-left: 26%;
         scrollbar-width: none; /* Hide scrollbar for Firefox */
       }
       
@@ -490,7 +489,7 @@
     </div>
 
     <div class="profile-header">
-      <img src="{% static 'hardware/image/profile.png' %}" alt="Profile Picture" class="avatar" />
+      <img src="{{ user.avatar.url }}" alt="Profile Picture" class="avatar" />
       <h2>{{ user.username }}</h2>
       <p>{{ user.email }}</p>
     </div>
@@ -516,24 +515,12 @@
               <span class="status {{ order.order_status|lower }}">{{ order.order_status }}</span>
             </td>
           </tr>
-          <tr>
-            <td>
-              <strong>Payment Method:</strong>
-            </td>
-            <td>{{ OrderItem.payment_method }}</td>
-          </tr>
+
           <tr>
             <td>
               <strong>Total Amount:</strong>
             </td>
             <td>Rs. {{ order.price }}</td>
-          </tr>
-
-          <tr>
-            <td>
-              <strong>Product Name:</strong>
-            </td>
-            <td>{{ order.item }}</td>
           </tr>
         </table>
 
@@ -587,7 +574,7 @@
 
     <h3>Settings</h3>
     <div class="settings">
-      <p>Change Password</p>
+      <a href="/profile/update" class="btn">Update Profile</a> <br>
       <a href="{% url 'userauths:logout' %}" class="btn">Log Out</a>
     </div>
 
