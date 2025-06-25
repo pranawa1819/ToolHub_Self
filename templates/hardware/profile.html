@@ -489,7 +489,9 @@
     </div>
 
     <div class="profile-header">
-      <img src="{{ user.avatar.url }}" alt="Profile Picture" class="avatar" />
+      <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/media/avatars/profile.png{% endif %}" alt="Profile Picture" class="avatar" />
+
+
       <h2>{{ user.username }}</h2>
       <p>{{ user.email }}</p>
     </div>

@@ -18,6 +18,7 @@ urlpatterns = [
     path('profile/', views.profilepage, name='profile'),  # This defines hardware:profile
     path('profile/update/', views.updateprofilepage, name='update_profile'),
     
+
     path("aboutus/",views.aboutpage, name="aboutpage"),
     
     path("contact/", views.contactpage, name="contactpage"),
@@ -40,9 +41,16 @@ urlpatterns = [
     
     path("checkout/", views.checkoutpage, name="checkoutpage"),
     
+    # payment gateway URLs
+    path('esewa-request/', views.esewa_request, name='esewa-request'),
+    path('payment-success/', views.payment_success, name='payment-success'),
+    
+    
+    
+    
     path('orderconfirmation/<str:id>/', views.order_confirmation, name='order_confirmation'),
     
-    path('cancel_order/<int:id>/', views.cancel_order, name='cancel_order'),
+   
     
     path("search/", views.searchs, name="searchs"),
 ]

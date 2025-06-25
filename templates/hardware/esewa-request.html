@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esewa Payment Request</title>
+  </head>
+  <style></style>
+
+  <body>
+    <h1>Esewa Payment Request</h1>
+    <p>To complete your payment, please click the button below:</p>
+    <form method="POST" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form">
+      {% csrf_token %}
+      <input type="hidden" name="amount" value="{{ payload.amount }}" />
+      <input type="hidden" name="tax_amount" value="{{ payload.tax_amount }}" />
+      <input type="hidden" name="product_service_charge" value="{{ payload.product_service_charge }}" />
+      <input type="hidden" name="product_delivery_charge" value="{{ payload.product_delivery_charge }}" />
+      <input type="hidden" name="total_amount" value="{{ payload.total_amount }}" />
+      <input type="hidden" name="transaction_uuid" value="{{ payload.transaction_uuid }}" />
+      <input type="hidden" name="product_code" value="{{ payload.product_code }}" />
+      <input type="hidden" name="success_url" value="{{ payload.success_url }}" />
+      <input type="hidden" name="failure_url" value="{{ payload.failure_url }}" />
+      <input type="hidden" name="signed_field_names" value="{{ payload.signed_field_names }}" />
+      <input type="hidden" name="signature" value="{{ payload.signature }}" />
+
+      <button type="submit">Proceed to Pay with eSewa</button>
+    </form>
+  </body>
+</html>

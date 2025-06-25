@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8" />
     <title>Order Confirmation</title>
     <style>
@@ -17,77 +22,91 @@
     }
     
     /* Navigation */
-    nav {
-      background: #fff;
-      border-bottom: 2px solid #eee;
-      display: flex;
-      justify-content: center;
-      padding: 15px 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    }
-    
-    .nav-center {
-      display: flex;
-      gap: 30px;
-    }
-    
-    .nav-center a {
-      color: #333;
-      font-weight: 600;
-      font-size: 18px;
-      text-decoration: none;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-    
-    .nav-center a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background-color: #ffcc00;
-      transition: width 0.3s ease-in-out;
-    }
-    
-    .nav-center a:hover {
-      color: #ff9900;
-    }
-    
-    .nav-center a:hover::after {
-      width: 100%;
-    }
-    
-    /* Logo */
-    .logocontainer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 20px 0;
-      margin-top: -2%;
-      margin-left: -60%;
-    }
-    
-    #logo {
-      height: 60px;
-      margin-right: 10px;
-    }
-    
-    #firstheader {
-      font-family: 'Dancing Script', cursive;
-      font-size: 36px;
-      color: #ff9900;
-      font-weight: bold;
-      margin-top: -1%;
-    }
+          * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+      body {
+        font-family: 'Poppins';
+        background: linear-gradient(to right, #fff9e6, #ffffff);
+        color: #333;
+      }
+      /* Navigation */
+      nav {
+        background: #fff;
+        border-bottom: 2px solid #eee;
+        display: flex;
+        justify-content: center;
+        padding: 15px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      }
+      
+      .nav-center {
+        display: flex;
+        gap: 30px;
+      }
+      
+      .nav-center a {
+        color: #333;
+        font-weight: 600;
+        font-size: 18px;
+        text-decoration: none;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-center a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background-color: #ffcc00;
+        transition: width 0.3s ease-in-out;
+      }
+      
+      .nav-center a:hover {
+        color: #ff9900;
+      }
+      
+      .nav-center a:hover::after {
+        width: 100%;
+      }
+      
+      /* Logo */
+      .logocontainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+        margin-top: -2%;
+        margin-left: -60%;
+      }
+      
+      #logo {
+        height: 60px;
+        margin-right: 10px;
+      }
+      
+      #firstheader {
+        font-family: 'Dancing Script', cursive;
+        font-size: 36px;
+        color: #ff9900;
+        font-weight: bold;
+        margin-top: -1%;
+      }
       .message {
         background: #fff;
         display: inline-block;
         padding: 30px;
         border-radius: 10px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
+        max-width: 700px;
+        margin-left: 35%;
+        margin-right: auto;
       }
       h1 {
         color: #ff9900;
@@ -97,16 +116,19 @@
         color: #333;
         text-align: left;
       }
-      a {
-        display: inline-block;
+      .btnmanage {
+        display: block;
         margin-top: 20px;
         padding: 10px 20px;
         background: #ffcc00;
-        color: #fff;
+        color: white;
         text-decoration: none;
         border-radius: 5px;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 600;
       }
-      a:hover {
+      .btnmanage:hover {
         background: #ff9900;
       }
       .order-items {
@@ -118,16 +140,18 @@
         justify-content: space-between;
         margin-bottom: 10px;
       }
+
+      
     </style>
   </head>
   <body>
     <nav>
       <div class="nav-center">
         <a href="/first">Home</a>
-        <a href="Services.html">About Us</a>
+        <a href="/aboutus">About Us</a>
         <a href="/collection">Collection</a>
         <a href="/cart">Your Cart</a>
-        <a href="Contact.html">Contact</a>
+        <a href="/contact">Contact</a>
         <a href="/profile">Profile</a>
       </div>
     </nav>
@@ -138,7 +162,7 @@
     </div>
 
     <div class="message">
-      <h3>Customer Details:</h3>
+      <h3 style="color:#ff9900; font-size: 1.5rem; font-weight:600;">Customer Details:</h3>
       <p>
         <strong>Name:</strong> {{ order.full_name }}
       </p>
@@ -155,13 +179,13 @@
         <strong>Delivery Area:</strong> {{ order.delivery_area }}
       </p>
 
-      <p><trong>Payment Method:</strong> {{ order.payment_method }}</p>
+      <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
 
       <p>
         <strong>Notes:</strong> {{ order.notes|default:'None' }}
       </p>
 
-      <h3>Bill Summary:</h3>
+      <h3 style="color:#ff9900; font-size: 1.5rem; font-weight:600;">Bill Summary:</h3>
 
       <p>
         <strong>Subtotal:</strong> Rs. {{ order.subtotal }}
@@ -179,11 +203,11 @@
         <strong>Total Amount:</strong> Rs. {{ order.total_amount }}
       </p>
 
-      <h3>Ordered Products:</h3>
+      <h3 style="color:#ff9900; font-size: 1.5rem; font-weight:600;">Ordered Products:</h3>
       {% for item in order_items %}
         <p>{{ item.item }} - {{ item.quantity }} pcs - Rs. {{ item.total }}</p>
       {% endfor %}
-      <a href="/first">Continue Shopping</a>
+      <h4><a href="/first" class="btnmanage">Continue Shopping</a></h4>
     </div>
 
     {% if cart_order.order_status == 'Ordered' and not cart_order.paid_status %}
