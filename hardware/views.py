@@ -22,9 +22,13 @@ import json
 # view for index page.
 def index(request):
     #return HttpResponse("welcome to my shop")
+    user = request.user
     featured_products = Product.objects.filter(featured=True)
+    
+   
     context={
-       'featured_products': featured_products
+       'featured_products': featured_products,
+       
        }
     return render(request, 'hardware/index.html',context)
 
@@ -74,11 +78,11 @@ def profilepage(request):
     if not request.user.is_authenticated:
         return redirect('login')
     
-    user = request.user
-    orders = cartOrder.objects.filter(user=request.user).order_by('-order_date')
+    user = request.user 
+    orders = cartOrder.objects.filter(user=request.user).order_by('-order_date')  #Fetch all user orders.
     
     for order in orders:
-        order.items = cartOrderItem.objects.filter(order=order)
+        order.items = cartOrderItem.objects.filter(order=order)    #
     
     # Get 4 most recently viewed products
     recently_viewed = Product.objects.filter(
@@ -206,7 +210,13 @@ def agricultureTools(request):
     
     return render(request, 'hardware/agriculturaltool.html', context)
 
-
+def bathroomTools(request):
+    products = Product.objects.filter(category__name='Bathroom utensils')
+    context = {
+        'products': products
+    }
+    
+    return render(request, 'hardware/bathroom.html', context)
 
 
 #view for product details page
@@ -247,18 +257,22 @@ def add_to_cart(request, pid):
     cart_order, created = cartOrder.objects.get_or_create(
         user=request.user,
         order_status='processing',
-        defaults={'price': 0}
+        defaults={
+            'price': 0  # Initialize price to 0
+            
+        },
+        
     )
 
-    # Check if item already exists in cartOrderItem
+   # Check if item already exists in cartOrderItem
     cart_item, created_item = cartOrderItem.objects.get_or_create(
         user=request.user,
         order=cart_order,
         item=product.name,
         defaults={
-            'invoice_no': str(uuid.uuid4()),  # generate unique invoice
+            'invoice_no': str(uuid.uuid4()),  
             'product_status': 'processing',
-            'image': product.image,  # assumes Product has 'image' field
+            'image': product.image, 
             'quantity': 1,
             'price': product.price,
             'total': product.price
@@ -274,8 +288,9 @@ def add_to_cart(request, pid):
     cart_items = cartOrderItem.objects.filter(order=cart_order)
     cart_order.price = sum(item.total for item in cart_items)
     cart_order.save()
+    messages.success(request, f"{product.name} has been added to your cart.")
 
-    return redirect('hardware:cart')  # cart page url name
+    return redirect(request.META.get('HTTP_REFERER', 'hardware:index'))
 
 
 
@@ -407,7 +422,7 @@ def checkoutpage(request):
                 cart_order.order_status = 'ordered'
             elif order.payment_method == 'Esewa':
                cart_order.paid_status = True
-               cart_order.order_status = 'completed'
+               cart_order.order_status = 'ordered'
                return redirect(
                  reverse('hardware:esewa-request') + 
                  "?order_id=" + 
@@ -568,13 +583,13 @@ def payment_success(request):
 
     # Update cart order
     cart_order.paid_status = True
-    cart_order.order_status = 'completed'
+    cart_order.order_status = 'ordered'
     cart_order.save()
 
     # Update each cart item
     cart_items = cartOrderItem.objects.filter(user=request.user, order=cart_order)
     for item in cart_items:
-        item.product_status = 'completed'
+        item.product_status = 'ordered'
         item.save()
 
     messages.success(request, "Payment successful!")
@@ -582,3 +597,15 @@ def payment_success(request):
     return redirect('hardware:order_confirmation', id=order.id)
 
 
+def payment_failure(request):
+    messages.error(request, "Payment failed. Please try again.")
+    
+    # Clear session order_id if exists
+    if 'order_id' in request.session:
+        del request.session['order_id']
+    
+    # Clear cart order if exists
+    if 'cart_order_id' in request.session:
+        del request.session['cart_order_id']
+    
+    return redirect('hardware:cart')  # Redirect to cart or any other page

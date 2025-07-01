@@ -14,11 +14,17 @@ class CatogeryAdmin(admin.ModelAdmin):
     list_display =['cid','name', 'category_image','description']
     readonly_fields = ['category_image']
     
+    
 class cartOrderAdmin(admin.ModelAdmin):
     list_display =['user','price','paid_status','order_date','order_status']
+    list_editable = ('order_status', 'paid_status')  # Make dropdown editable directly
+    list_filter = ('order_status', 'paid_status')    # Optional filters
 
 class cartOrderItemAdmin(admin.ModelAdmin):
-    list_display =['order','invoice_no','item','image','quantity','price','total']
+    list_display =['order','invoice_no','item','image','quantity','price','total','product_status']
+    list_editable = ['product_status']  
+    list_filter = ['product_status']    
+    
     
 class ProductReviewAdmin(admin.ModelAdmin):
     list_display = ['user','product','review','rating']

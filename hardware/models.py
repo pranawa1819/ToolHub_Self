@@ -7,6 +7,7 @@ from django.utils.html import mark_safe
 from userauths.models import User
 from django.utils import timezone
 
+
 STATUS_CHOICE =(
     ("processing", "Processing"),
     ("shipped", "Shipped"),
@@ -54,6 +55,12 @@ PAYMENT_CHOICES = (
     ('Esewa', 'Esewa'),
     ('Khalti', 'Khalti'),
 )
+
+PAID_STATUS_CHOICES = (
+    (True, 'Paid'),
+    (False, 'Unpaid'),
+)
+
 
 class Category(models.Model):
     cid = ShortUUIDField(unique=True, length = 10, max_length=20, prefix="cat", alphabet="abcdefgh12345") 
@@ -121,11 +128,14 @@ class ProductImage(models.Model):
   
 class cartOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    paid_status = models.BooleanField(default=False)
+    paid_status = models.BooleanField(choices=PAID_STATUS_CHOICES,default=False)
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(choices=STATUS_CHOICE, max_length=20, default="processing")
     item = models.CharField(max_length=200,null=True, blank=True)
+   
+    
     class Meta:
         verbose_name_plural = "Cart Orders"
   
@@ -136,11 +146,13 @@ class cartOrderItem(models.Model):
     order = models.ForeignKey(cartOrder, on_delete=models.CASCADE , null = True)
     invoice_no = models.CharField(max_length=200)
     product_status = models.CharField(max_length=200,choices=STATUS_CHOICE,default="null")
+   
     item = models.CharField(max_length=200)
     image = models.ImageField(upload_to='cart_items/', null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    
     class Meta:
         verbose_name_plural = "Cart Order Items"
         

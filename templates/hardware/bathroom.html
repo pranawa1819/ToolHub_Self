@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Power Tools</title>
+    <title>Bathroom Utensils</title>
   </head>
   <style>
     * {
@@ -96,7 +96,7 @@
     
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin-top: 5%;
       margin-left: 10%;
@@ -139,14 +139,15 @@
     .badge.hot {
       background: #6c5ce7;
     }
-    
+    .badge.sale {
+      background: green;
+    }
     .product-name {
+      display: block;
       margin: 10px 0;
-      font-size: 16px;
-      color: black;
       font-size: 1.1rem;
       font-weight: 600;
-      display: block;
+      color: black;
       text-decoration: none;
     }
     
@@ -164,7 +165,7 @@
     }
     
     .add-to-cart {
-      margin-top: 10px 0;
+      margin-top: 10px;
       background: #ffcc00;
       color: #fff;
       border: none;
@@ -172,9 +173,6 @@
       border-radius: 20px;
       cursor: pointer;
       transition: background 0.3s ease;
-      display: block;
-      text-decoration: none;
-      text-align: center;
       margin-left: auto;
       margin-right: auto;
     }
@@ -182,6 +180,7 @@
     .add-to-cart:hover {
       background: #ff9900;
     }
+    
     .addtocartname {
       display: block;
       font-family: 'Poppins';
@@ -191,7 +190,7 @@
       text-decoration: none;
     }
 
-    /* Alert Message */
+   /* Alert Message */
     .custom-alert {
       padding: 15px 20px;
       margin: 15px auto;
@@ -246,7 +245,7 @@
       }, 3000)
     </script>
 
-    <h1 class="page-title">Power Tools Collection</h1>
+    <h1 class="page-title">Bathroom Utensils Collection</h1>
     <div class="product-grid">
       {% for product in products %}
         <div class="product-card">
@@ -260,7 +259,6 @@
           {% if product.old_price %}
             <p class="old-price">Rs {{ product.old_price }}</p>
           {% endif %}
-
           <button class="add-to-cart"><a href="/add_to_cart/{{ product.pid }}" class="addtocartname">Add to Cart</a></button>
         </div>
       {% endfor %}

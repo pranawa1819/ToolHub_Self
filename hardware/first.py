@@ -32,6 +32,7 @@ urlpatterns = [
     path("electricaltool/", views.electricalTools, name="electricalTools"),
     path("measuringtool/", views.measuringTools, name="measuringTools"),
     path("agriculturaltool/", views.agricultureTools, name="agriculturalTools"),
+    path("bathroom/", views.bathroomTools, name="bathroomTools"),
     
     path("productdetail/<str:pid>/", views.productDetailpage, name="productdetail"),
     
@@ -44,6 +45,7 @@ urlpatterns = [
     # payment gateway URLs
     path('esewa-request/', views.esewa_request, name='esewa-request'),
     path('payment-success/', views.payment_success, name='payment-success'),
+    path('payment-failure/', views.payment_failure, name='payment-failure'),
     
     
     
