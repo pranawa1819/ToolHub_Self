@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse,HttpResponseBadRequest
-from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, ProductImage,Product_Review,Order,OrderItem,ProductView
+from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, ProductImage,Product_Review,Order,OrderItem,ProductView,SearchHistory
 from hardware.form import ReviewForm , OrderForm
 from django.contrib.auth.models import User
 import uuid
@@ -16,21 +16,28 @@ import hmac
 import hashlib
 import base64
 import json
+from .recommender import build_user_item_matrix, knn_recommend
+from .recommender import recommend_for_user
 
 
 
-# view for index page.
+# # view for index page.
 def index(request):
-    #return HttpResponse("welcome to my shop")
-    user = request.user
     featured_products = Product.objects.filter(featured=True)
-    
-   
-    context={
-       'featured_products': featured_products,
-       
-       }
-    return render(request, 'hardware/index.html',context)
+
+    # ---------- KNN based recommendations ----------
+    if request.user.is_authenticated:
+        recommendations = recommend_for_user(request.user, top_n=8)
+    else:
+        # Fall back to globally featured products for anonymous users
+        recommendations = Product.objects.filter(featured=True)[:4]
+
+    context = {
+        'featured_products': featured_products,
+        'products': Product.objects.all(),
+        'recommendations': recommendations,
+    }
+    return render(request, 'hardware/index.html', context)
 
 #view for landing page
 def landingpage(request):
@@ -224,7 +231,9 @@ def productDetailpage(request, pid):
     product = Product.objects.get(pid=pid)  # get() returns a single product
     reviews = Product_Review.objects.filter(product=product)
     track_product_view(request.user, product)
-
+    
+    #similar_products = recommend_similar_to_product(product.pid)
+    similar_products = []
     if request.method == "POST":
         review = request.POST.get('review')
         rating = request.POST.get('rating')
@@ -244,6 +253,7 @@ def productDetailpage(request, pid):
         'product': product,
         'reviews': reviews,
         'form': form,  # now always defined
+        #'similar_products': similar_products
     }
 
     return render(request, 'hardware/productdetails.html', context)
@@ -268,7 +278,7 @@ def add_to_cart(request, pid):
     cart_item, created_item = cartOrderItem.objects.get_or_create(
         user=request.user,
         order=cart_order,
-        item=product.name,
+        item=product,
         defaults={
             'invoice_no': str(uuid.uuid4()),  
             'product_status': 'processing',
@@ -337,6 +347,7 @@ def searchs(request):
     products = Product.objects.all()
 
     if query:
+        SearchHistory.objects.create(user=request.user, query=query)
         products = products.filter(name__icontains=query)
 
     if category_name:
@@ -609,3 +620,16 @@ def payment_failure(request):
         del request.session['cart_order_id']
     
     return redirect('hardware:cart')  # Redirect to cart or any other page
+
+
+
+
+
+
+
+
+
+
+
+
+

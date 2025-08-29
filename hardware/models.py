@@ -128,13 +128,12 @@ class ProductImage(models.Model):
   
 class cartOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
-    
+    item = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     paid_status = models.BooleanField(choices=PAID_STATUS_CHOICES,default=False)
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(choices=STATUS_CHOICE, max_length=20, default="processing")
-    item = models.CharField(max_length=200,null=True, blank=True)
-   
+    
     
     class Meta:
         verbose_name_plural = "Cart Orders"
@@ -147,7 +146,7 @@ class cartOrderItem(models.Model):
     invoice_no = models.CharField(max_length=200)
     product_status = models.CharField(max_length=200,choices=STATUS_CHOICE,default="null")
    
-    item = models.CharField(max_length=200)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='cart_items/', null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -236,3 +235,9 @@ class ProductView(models.Model):
     class Meta:
         ordering = ['-viewed_at']
         unique_together = ['user', 'product'] 
+        
+class SearchHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null = True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    query = models.CharField(max_length=255, null=True, blank=True)

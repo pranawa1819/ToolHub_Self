@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, Order, ProductImage,Product_Review,OrderItem,ProductView
+from hardware.models import Product, Category, cartOrder,cartOrderItem, Wishlist, Order, ProductImage,Product_Review,OrderItem,ProductView,SearchHistory
 # Register your models here.
 
 class ProductImageAdmin(admin.TabularInline):
@@ -41,6 +41,11 @@ class OrderItemAdmin(admin.ModelAdmin):
 class ProductViewAdmin(admin.ModelAdmin):
     list_display = ['user', 'product', 'viewed_at']
     
+class SearchHistoryAdmin(admin.ModelAdmin):
+  list_display = ['user', 'product', 'timestamp', 'query']
+
+
+    
 admin.site.register(Product, productAdmin)
 admin.site.register(Category,CatogeryAdmin)
 admin.site.register(cartOrder,cartOrderAdmin)
@@ -50,3 +55,4 @@ admin.site.register(Wishlist,WishlistAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(OrderItem,OrderItemAdmin)
 admin.site.register(ProductView, ProductViewAdmin)
+admin.site.register(SearchHistory, SearchHistoryAdmin)
