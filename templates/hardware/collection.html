@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+   {% load static %}
   <head>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -77,6 +78,7 @@
     #logo {
       height: 60px;
       margin-right: 10px;
+      margin-top: -0.7%;
     }
     
     #firstheader {
@@ -145,17 +147,17 @@
     <nav>
       <div class="nav-center">
         <a href="/first">Home</a>
-        <a href="Services.html">About Us</a>
+        <a href="/aboutus">About Us</a>
         <a href="/collection">Collection</a>
         <a href="/cart">Your Cart</a>
 
-        <a href="Contact.html">Contact</a>
+        <a href="/contact">Contact</a>
         <a href="/profile">Profile</a>
       </div>
     </nav>
 
     <div class="logocontainer">
-      <img src="logo.png" alt="logoshere" id="logo" />
+      <img src="{% static 'hardware/image/logo.png' %}" alt="logoshere" id="logo" />
       <h1 id="firstheader">ToolHub</h1>
     </div>
 

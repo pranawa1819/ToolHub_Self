@@ -78,6 +78,7 @@
     #logo {
       height: 60px;
       margin-right: 10px;
+      margin-top: -0.7%;
     }
     
     #firstheader {
@@ -509,23 +510,124 @@
       margin-left: auto;
       margin-right: auto;
     }
+
+            /* Recommendation Products */
+    .Recommendedproducts-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 20px;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+    
+    .Recommendedproducts-card {
+      position: relative; /* FIX for badge */
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .product-image1 {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    
+    .product-name1 {
+      display: block;
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .price1 {
+      color: #e84118;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .old-price1 {
+      color: #aaa;
+      text-decoration: line-through;
+      font-size: 14px;
+      color: blue;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+     /* Badge Fixed */
+    .badge1 {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #ff4757;
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+    
+    .badge.hot1 {
+      background: #6c5ce7;
+    }
+    .badge.sale1 {
+      background: green;
+    }
+    /* Add to cart */
+    .add-to-cart-btn1 {
+      background-color: #ffcc00;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+    
+    .add-to-cart-btn1:hover {
+      background-color: #ff9900;
+    }
+    
+    .addtocartname1 {
+      display: block;
+      font-family: 'Poppins';
+    
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+  
   </style>
 
   <body>
     <nav>
       <div class="nav-center">
         <a href="/first">Home</a>
-        <a href="Services.html">About Us</a>
+        <a href="/aboutus">About Us</a>
         <a href="/collection">Collection</a>
         <a href="/cart">Your Cart</a>
 
-        <a href="Contact.html">Contact</a>
+        <a href="/contact">Contact</a>
         <a href="/profile">Profile</a>
       </div>
     </nav>
 
     <div class="logocontainer">
-      <img src="logo.png" alt="logoshere" id="logo" />
+      <img src="{% static 'hardware/image/logo.png' %}" alt="logoshere" id="logo" />
       <h1 id="firstheader">ToolHub</h1>
     </div>
 
@@ -592,6 +694,45 @@
         </p>
       {% endif %}
     </div>
+    <hr>
+<div class="header">
+  <h2 style="margin-left: 6%; font-size: 28px;
+      color: #333;">Similar Product You May Like</h2>
+</div>
+
+<div class="Recommendedproducts-list">
+  {% for sp in similar_products %}
+    <div class="Recommendedproducts-card">                                  
+
+      {% if sp.label %}
+        <span class="badge1 {{ sp.label|lower }}">{{ sp.label }}</span>
+      {% endif %}
+
+      <a href="{% url 'hardware:productdetail' sp.pid %}">
+        <img src="{{ sp.image.url }}" alt="{{ sp.name }}" class="product-image1" />
+      </a>
+
+      <h3>
+        <a href="{% url 'hardware:productdetail' sp.pid %}" class="product-name1">
+          {{ sp.name }}
+        </a>
+      </h3>
+
+      <p class="price1">Rs {{ sp.price }}</p>
+
+      {% if sp.old_price %}
+        <p class="old-price1">Rs {{ sp.old_price }}</p>
+      {% endif %}
+
+      <button class="add-to-cart-btn1">
+        <a href="{% url 'hardware:add_to_cart' sp.pid %}" class="addtocartname1">Add to Cart</a>
+      </button>
+    </div>
+  {% empty %}
+    <p>No similar products found.</p>
+  {% endfor %}
+</div>
+
 
     <footer>
       <div class="footer-container">

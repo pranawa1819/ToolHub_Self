@@ -16,7 +16,7 @@ import hmac
 import hashlib
 import base64
 import json
-from .recommender import build_user_item_matrix, knn_recommend
+from .recommender import build_user_item_matrix, knn_recommend, knn_similar_products
 from .recommender import recommend_for_user
 
 
@@ -234,6 +234,9 @@ def productDetailpage(request, pid):
     
     #similar_products = recommend_similar_to_product(product.pid)
     similar_products = []
+    similar_products = knn_similar_products(product, top_n=4)
+   
+
     if request.method == "POST":
         review = request.POST.get('review')
         rating = request.POST.get('rating')
@@ -253,7 +256,7 @@ def productDetailpage(request, pid):
         'product': product,
         'reviews': reviews,
         'form': form,  # now always defined
-        #'similar_products': similar_products
+        'similar_products': similar_products
     }
 
     return render(request, 'hardware/productdetails.html', context)
