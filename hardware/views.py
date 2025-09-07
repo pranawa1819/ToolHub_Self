@@ -16,7 +16,7 @@ import hmac
 import hashlib
 import base64
 import json
-from .recommender import build_user_item_matrix, knn_recommend, knn_similar_products
+from .recommender import  knn_similar_products
 from .recommender import recommend_for_user
 
 

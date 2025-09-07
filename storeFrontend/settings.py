@@ -141,6 +141,7 @@ JAZZMIN_SETTINGS = {
     'site_header': "Hardware Shop",
     'site_brand': "ToolHub",  
     'copyright': "A Hardware store.com",
+    'image_logo': "logo.png" 
 }
 
 AUTH_USER_MODEL = 'userauths.User'  # Custom user model

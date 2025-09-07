@@ -229,7 +229,7 @@
     
     .header h2 {
       font-size: 28px;
-      color: #333;
+      color: #ff9900;
     }
     
     .filter-options span {
@@ -247,7 +247,7 @@
       background: #ff9900;
       color: #000;
     }
-        /* Recommendation Products */
+    /* Recommendation Products */
     .Recommendedproducts-list {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -628,9 +628,9 @@
     </div>
 
     <br /><br /><br />
-    
+
     <div class="header">
-      <h2 style="margin-left: 6%;">Recommended for You</h2>
+      <h2 style="margin-left: 6%;color: #ff9900;">Recommended for You</h2>
     </div>
     <div class="Recommendedproducts-list">
       {% for product in recommendations %}
@@ -668,13 +668,12 @@
     <div class="featureproducts-list">
       {% if featured_products %}
         {% for product in featured_products %}
-          <div class="featureproducts-card">
+          <div class="featureproducts-card" data-category="{{ product.category.name }}">
             {% if product.label %}
               <span class="badge {{ product.label|lower }}">{{ product.label }}</span>
             {% endif %}
             <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
             <h3><a href="/productdetail/{{ product.pid }}" class="product-name">{{ product.name }}</a></h3>
-
             <p class="price">Rs {{ product.price }}</p>
             {% if product.old_price %}
               <p class="old-price">Rs {{ product.old_price }}</p>
@@ -686,6 +685,7 @@
         <p>No featured products available.</p>
       {% endif %}
     </div>
+
     <br /><br /><br /><br />
     <!-- Banner -->
 
@@ -772,5 +772,32 @@
       </div>
       <div class="footer-bottom">&copy; 2019-2020 All Rights Reserved.</div>
     </footer>
+
+    <script>
+      $(document).ready(function () {
+        $('.filter-options span').click(function () {
+          // Remove active class from all
+          $('.filter-options span').removeClass('active')
+          // Add active to clicked
+          $(this).addClass('active')
+      
+          var category = $(this).text().trim() // Get clicked category
+      
+          if (category === 'All') {
+            // Show all
+            $('.featureproducts-card').show()
+          } else {
+            // Hide all first
+            $('.featureproducts-card').hide()
+            // Show only matching category
+            $('.featureproducts-card')
+              .filter(function () {
+                return $(this).data('category') === category
+              })
+              .show()
+          }
+        })
+      })
+    </script>
   </body>
 </html>
